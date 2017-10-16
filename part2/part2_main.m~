@@ -1,0 +1,8 @@
+%% PART 2  
+
+%% Function definition
+
+func=@(x1,x2)((x1^2))
+%% Q2.1: Contour Plots
+
+%%

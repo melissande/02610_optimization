@@ -1,11 +1,11 @@
-function [ f,df ] = func_basis(x)
-%func_basis returns the function,its gradient 
+function [ f,df,d2f ] = func_basis_2(x)
+%func_basis returns the function,its gradient and its Hessian
 %for the function defined in PART 2 assignment 1
 %% INPUT
 %x: vector where f is to be evaluated (vector of two points)
 %% OUTPUT 
 %f:function
-%df:gradient
+%df
 %%
 x1=x(1);
 x2=x(2);

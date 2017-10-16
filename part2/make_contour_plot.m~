@@ -1,0 +1,35 @@
+function [] = make_contour_plot( func, x, xopt )
+%UNTITLED3 Summary of this function goes here
+%   Detailed explanation goes here
+iter=1:length(x)
+
+x1=linspace(-100,100,100);
+x2=linspace(-100,100,100);
+
+[X1,X2]=meshgrid(x1,x2); 
+func_eval=func(X1,X2);
+
+% Make contour plot
+figure;
+fs = 10; 
+contour(X1,X2,func_eval,50,'linewidth',2)
+hold on
+scatter(x(1,:), x(2,:),'red','filled')
+hold on
+scatter(xopt(1),xopt(2),'green','filled')
+
+b = ['iter=',num2str(iter')]; c = cellstr(b);
+dx = 0.1; dy = 0.1; % displacement so the text does not overlay the data points
+text(x(1,:)+dx, x(2,:)+dy, c);
+
+
+xlabel('x_1','fontsize',fs); 
+ylabel('x_2','fontsize',fs); 
+set(gca,'fontsize',fs);
+axis equal
+grid on
+title('Contour Plot')
+colorbar
+
+end
+
