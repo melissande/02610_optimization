@@ -22,7 +22,7 @@ fs = 10;
 contour(X1,X2,func_eval,50,'linewidth',2)
 if ~isempty(iter)
     hold on
-    scatter(x(1,:), x(2,:),100,'red','filled','x')
+    scatter(x(1,:), x(2,:),30,'red','filled')
     b = num2str(iter'); c = cellstr(b);
     dx = 2; dy = 2; % displacement so the text does not overlay the data points
     text(x(1,:)+dx, x(2,:)+dy, c,'Color','red','FontSize',14);
