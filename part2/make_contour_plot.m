@@ -10,8 +10,8 @@ function [] = make_contour_plot( func, x, xopt )
 %figure with the contour plot and theoretical and algorithms minimum
 iter=1:length(x);
 
-x1=linspace(-100,100,100);
-x2=linspace(-100,100,100);
+x1=linspace(-5,5,500);
+x2=linspace(-5,5,500);
 
 [X1,X2]=meshgrid(x1,x2); 
 func_eval=func(X1,X2);
@@ -19,18 +19,18 @@ func_eval=func(X1,X2);
 % Make contour plot
 figure;
 fs = 10; 
-contour(X1,X2,func_eval,50,'linewidth',2)
+contour(X1,X2,func_eval,50,'linewidth',1)
 if ~isempty(iter)
     hold on
-    scatter(x(1,:), x(2,:),30,'red','filled')
+    scatter(x(1,:), x(2,:),30,'black','filled')
     b = num2str(iter'); c = cellstr(b);
-    dx = 2; dy = 2; % displacement so the text does not overlay the data points
-    text(x(1,:)+dx, x(2,:)+dy, c,'Color','red','FontSize',14);
+    dx = 0.1; dy = 0.1; % displacement so the text does not overlay the data points
+    text(x(1,:)+dx, x(2,:)+dy, c,'Color','black','FontSize',14);
 end
 if ~isempty(xopt)
     hold on
     scatter(xopt(1),xopt(2),100,'green','filled','h')
-    dx = 2; dy =2; % displacement so the text does not overlay the data points
+    dx = 0.1; dy =0.1; % displacement so the text does not overlay the data points
     text(xopt(1)+dx, xopt(2)+dy, 'Min','Color','green','FontSize',14);
 end
 xlabel('x_1','fontsize',fs); 
@@ -39,6 +39,7 @@ set(gca,'fontsize',fs);
 axis equal
 grid on
 title('Contour Plot')
+colormap hsv;
 colorbar
 
 end
