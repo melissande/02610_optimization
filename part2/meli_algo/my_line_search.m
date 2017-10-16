@@ -1,8 +1,8 @@
-function [ xn,fn,gn,dv ] = my_line_search(fun,x ,f,g,h,opts,varargin )
+function [ xn,fn,gn,dv ] = my_line_search(fun,x ,f,g,h,opts )
 %my_line_search  Find  am = argmin_{a > 0}{ P(a) = f(x+a*h) } , where  x  and  
 % h  are given n-vectors and the scalar function  f  and its gradient  g  
 % (with elements  g(i) = Df/Dx_i ) must be given by a MATLAB function with 
-% declaration
+% declarationc
 %            function  [f, g] = fun(x,p1,p2,...)
 % p1,p2,... are parameters of the function.
 %
@@ -53,8 +53,7 @@ if (h'*g<0)
         
         while (~stop && k<kmax)
             k=k+1;
-            x_bh_cell=num2cell(x+b*h);
-            [f_b,df_b]=feval(fun,x_bh_cell{:},varargin{:});
+            [f_b,df_b]=feval(fun,x+b*h);
             if f_b<f+beta1*h'*g*b %P(b)<lambda(b)
                 %lambda(alpha)<-P(0)+beta1*P'(0)*alpha
                 %P(alpha)<-f(x+alpha*h)
@@ -78,21 +77,18 @@ if (h'*g<0)
         
         while (~stop && k<kmax)
             k=k+1;
-            [alpha,a,b]=refine(a,b,x,fun,f,g,h);
-             x_alpha_cell=num2cell(x+alpha*h);
-            [f_alpha,df_alpha]=feval(fun,x_alpha_cell{:},varargin{:});
+            [alpha,a,b]=refine(a,b,x,fun,f,g,h,beta1);
+            [f_alpha,df_alpha]=feval(fun,x+alpha*h);
             stop=((f_alpha<=f+beta1*h'*g*alpha)&&(h'*df_alpha>=beta2*h'*g));
             
         end
-        x_alpha_cell=num2cell(x+alpha*h);
-        [f_alpha,df_alpha]=feval(fun,x_alpha_cell{:},varargin{:});
+        [f_alpha,df_alpha]=feval(fun,x+alpha*h);
         if f_alpha>=f
             alpha=0;
         end
         
         xn=x+alpha*h;
-        xn_cell=num2cell(xn);
-        [fn,gn]=feval(fun,xn_cell{:},varargin{:});
+        [fn,gn]=feval(fun,xn);
     
 else disp('Descent direction is not downhill - END') 
 end

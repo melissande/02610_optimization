@@ -1,7 +1,7 @@
-function [x,stat] = newton_my_ls(fun,fundfun,x0,varargin)
+function [x,stat] = newton_my_ls(fun,fundfun,x0)
 % Solver settings and info
 
-%add varargin
+
 maxit = 100*length(x0);
 tol   = 1.0e-10;
 
@@ -12,12 +12,11 @@ stat.iter      = 0;% number of iterations
 
 % Initial iteration
 x = x0;
-x_cell=num2cell(x0);
 it = 0;
 
 
 
-[f,df,d2f] = feval(fundfun,x_cell{:},varargin{:});
+[f,df,d2f] = feval(fundfun,x0);
 converged = (norm(df,'inf') <= tol);
 stat.nfun = 1;
 
@@ -35,17 +34,18 @@ while ~converged && (it < maxit)
     % ================================================
     d = d2f\(-df);
  
-    [x,~,~,~] =my_line_search(fun, x,f,df, d,[],varargin{:});
-    x_cell=num2cell(x);
+    [x,~,~,~] =my_line_search(fun, x,f,df, d,[]);
+    
     
     
     % ================================================
-    [f,df,d2f] = feval(fundfun,x_cell{:},varargin{:});
+    [f,df,d2f] = feval(fundfun,x);
     
     
     converged = (norm(df,'inf') <= tol);
     stat.nfun = stat.nfun+1;
     % Store data for plotting
+
     stat.X  = [stat.X  x];
     stat.F  = [stat.F f];
     stat.dF = [stat.dF df];

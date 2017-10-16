@@ -37,6 +37,6 @@ fprintf('Global minimum %d: df=[%d,%d]  and d2f=[%d,%d;%d,%d] \n',i,df,d2f)
 
 
 %% Q2.4:  Newton's algorithm
-x0=[3.1,2.1];
+x0=[3.1,2.1]';
 [xopt,stat]=newton_my_ls(@func_basis,@func_basis_2,x0);
 
