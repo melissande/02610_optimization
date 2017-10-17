@@ -1,10 +1,10 @@
-function [x,stat] = newton_my_ls(fun,fundfun,x0)
+function [x,stat] = bfgs_my_ls(fun,x0)
 % Solver settings and info
-
 tic;
-maxit = 100*length(x0);
+maxit=50;
+%maxit = 100*length(x0);
 tol   = 1.0e-10;
-
+B  = eye(length(x0));
 stat.converged = false;% converged
 stat.nfun      = 0;% number of function calls
 stat.iter      = 0;% number of iterations
@@ -16,7 +16,8 @@ it = 0;
 
 
 
-[f,df,d2f] = feval(fundfun,x);
+[f,df] = feval(fun,x);
+
 converged = (norm(df,'inf') <= tol);
 stat.nfun = 1;
 stat.tmp=0;
@@ -24,7 +25,6 @@ stat.tmp=0;
 stat.X = x;
 stat.F = f;
 stat.dF = df;
-stat.d2F=d2f;
 
 % Main loop of steepest descent
 while ~converged && (it < maxit)
@@ -32,24 +32,32 @@ while ~converged && (it < maxit)
     % Newton's algo
     % TODO -- Insert code between the lines
     % ================================================
-    d = -d2f\(df);
-  
-    [x,~,~,eval] =my_line_search(fun, x,f,df, d,stat.nfun,[]);
+    d = -B \ df;
+
+    [xnew,~,~,eval] =my_line_search(fun, x,f,df, d,stat.nfun,[]);
+    
     stat.nfun=eval;
     
     
     % ================================================
-    [f,df,d2f] = feval(fundfun,x);
+    [fnew,dfnew] = feval(fun,xnew);
     
     
-    converged = (norm(df,'inf') <= tol);
+    converged = (norm(dfnew,'inf') <= tol);
+    
+    s = xnew - x;
+    y = dfnew - df;
+    Bs = B*s;
+    B = B - (Bs/(s'*Bs))*Bs'  + (y/(y'*s))*y';
+    x = xnew;
+    f = fnew;
+    df = dfnew;
     stat.nfun = stat.nfun+1;
     % Store data for plotting
 
     stat.X  = [stat.X  x];
     stat.F  = [stat.F f];
     stat.dF = [stat.dF df];
-    stat.d2F=[stat.d2F d2f];
 end
 % Prepare return data
 if ~converged
