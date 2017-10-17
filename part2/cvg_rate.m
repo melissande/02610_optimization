@@ -15,13 +15,13 @@ ek_next(1)=[];
 b=log(ek_next);
 A=[ones(length(ek),1),log(ek)];
 x=A\b;
-p=round(x(2),1);
-c=round(exp(x(1)),1);
+p=x(2);
+c=exp(x(1));
 %% Type of convergence
 iter=1:length(ek);
 
 figure(fig_number);
-if (p==1.0)
+if (p>=0.9 && p<=1.1)
     %Linear cvg
     x=iter';
     y=ek_next./ek;
@@ -29,13 +29,15 @@ if (p==1.0)
     xlabel('iteration k')
     ylabel('e_{k+1}/e_k')
     title('Linear Convergence')
-elseif (p==2.0)
+    p=round(p);
+elseif (p>=1.9 && p<=2.1)
     x=iter';
     y=ek_next./ek.^2;
     plot(x,y)
     xlabel('iteration k')
     ylabel('e_{k+1}/e_k^2')
     title('Quadratic Convergence')
+    p=round(p);
 elseif (1<p && p<2)
     x=iter';
     y=ek_next./ek;

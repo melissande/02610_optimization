@@ -50,14 +50,14 @@ error=sqrt(sum((stat.X'-x_global_min).^2,2));
 [p,c]= cvg_rate( error, fignumber);
 fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
-make_contour_plot( func, stat.X', x_global_min',fignumber )
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
 %% Q2.4:  Newton's algorithm
 %HUGE lack of global cvg
 %it's due to the fact that the direction of search is nto DOWNHILL 
 %so we basically DON'T move
-
 fignumber=1;
+
 %Remark: basically falls into all the stationary points ever (not max though)
 %when close to but alwayse cvg to something
 x_global_min=[3,2];
@@ -65,18 +65,18 @@ x_global_min=[3,2];
 disp('Close to the global minimum')
 x0=[5,5]';
 fprintf('x0=[%d,%d]\n',x0);
-[xopt,stat]=newton_my_ls(@func_basis,@func_basis_2,x0)
-% 
-% fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
-% error=sqrt(sum((stat.X'-x_global_min).^2,2));
-% [p,c]= cvg_rate( error, fignumber);
-% fignumber=fignumber+1;
-% fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
-% make_contour_plot( func, stat.X', x_global_min',fignumber )
-% fignumber=fignumber+1;
+[xopt,stat]=newton_my_ls(@func_basis,@func_basis_2,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber ,[])
+fignumber=fignumber+1;
 
 %% Q2.5:BFGS
 
 x0=[3.1,2.1]';
 fprintf('x0=[%d,%d]\n',x0);
-[xopt,stat]=bfgs_my_ls(@func_basis,x0)
+[xopt,stat]=bfgs_my_ls(@func_basis,x0);
