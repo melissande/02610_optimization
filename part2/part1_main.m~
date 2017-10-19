@@ -56,28 +56,10 @@ ylabel('Concentration of NO in ?g/m3 ')
 legend('Obersvations','Predictions')
 %% Test for autocorrelation
 
-n=2;
-rho=3;
-t_rho=2;
 
-while abs(rho)>t_rho
-    n=n+1;
-    [x_star,r_star] = NOfit(t,y,n);
-    res=r_star;
+[x_star,r_star] = NOfit(t,y,n);
+res=r_star;
 
-    ri=res;
-    ri(end)=[];
-    riplus1=res;
-    riplus1(1)=[];
-    rho=sum(ri.*riplus1);
-    t_rho=1/sqrt(size(res,1)-1)*sum(res.^2);
-end
-
-norm_r_star=sqrt(sum((r_star).^2));
-fprintf('The norm of the residual is %d  and the order of the model is %d\n',norm_r_star,n)
-
-figure(1);
-plot(t,y,'o',t,y-r_star,'+')
-xlabel('Time in hours')
-ylabel('Concentration of NO in ?g/m3 ')
-legend('Obersvations','Predictions')
+ri=res;
+ri[1]=[];
+riplus1=[]
