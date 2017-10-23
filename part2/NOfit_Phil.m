@@ -51,7 +51,8 @@ else
         p.LineWidth = 1.2;
         p.Color = 'b';
         grid on
-            
+        legend('Data Points',sprintf('Fit of Degree No.  %d', n))
+        title(sprintf('Estimated Model to Fit of Degree %d', n),'Fontsize',16)
 end
 end
 
