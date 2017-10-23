@@ -28,7 +28,7 @@ iter_sad=1:size(x_sad,1);
 if ~isempty(x_sad)
     hold on
     scatter(x_sad(:,1), x_sad(:,2),30,'black','filled')
-    b = num2str(iter_sad'); c = strcat('Saddle pt ',cellstr(b));
+    b = num2str(iter_sad'); c = strcat('saddle ',cellstr(b));
     dx = 0.1; dy = 0.1; % displacement so the text does not overlay the data points
     text(x_sad(:,1)+dx, x_sad(:,2)+dy, c,'Color','black','FontSize',14);
 end
@@ -36,7 +36,7 @@ iter_min=1:size(x_min,1);
 if ~isempty(x_min)
     hold on
     scatter(x_min(:,1), x_min(:,2),30,'black','filled')
-    b = num2str(iter_min'); c = strcat('Loc min pt ',cellstr(b));
+    b = num2str(iter_min'); c = strcat('min ',cellstr(b));
     dx = 0.1; dy = 0.1; % displacement so the text does not overlay the data points
     text(x_min(:,1)+dx, x_min(:,2)+dy, c,'Color','black','FontSize',14);
 end
@@ -45,7 +45,7 @@ iter_max=1:size(x_max,1);
 if ~isempty(x_max)
     hold on
     scatter(x_max(:,1), x_max(:,2),30,'black','filled')
-    b = num2str(iter_max'); c = strcat('Loc max pt ',cellstr(b));
+    b = num2str(iter_max'); c = strcat('max ',cellstr(b));
     dx = 0.1; dy = 0.1; % displacement so the text does not overlay the data points
     text(x_max(:,1)+dx, x_max(:,2)+dy, c,'Color','black','FontSize',14);
 end

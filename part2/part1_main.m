@@ -25,7 +25,7 @@ legend('Obersvations','Predictions')
 n=3;
 z_plus_moins=2;
 while z_plus_moins>=1.96
-    n=n+1;
+    n=n+2;
     if n>24
         
         disp ('stop')
@@ -52,16 +52,16 @@ fprintf('The norm of the residual is %d  and the order of the model is %d\n',nor
 figure(1);
 plot(t,y,'o',t,y-r_star,'+')
 xlabel('Time in hours')
-ylabel('Concentration of NO in ?g/m3 ')
+ylabel('Concentration of NO in microg/m3 ')
 legend('Obersvations','Predictions')
 %% Test for autocorrelation
 
-n=2;
+n=3;
 rho=3;
 t_rho=2;
 
 while abs(rho)>t_rho
-    n=n+1;
+    
     [x_star,r_star] = NOfit(t,y,n);
     res=r_star;
 
@@ -71,6 +71,7 @@ while abs(rho)>t_rho
     riplus1(1)=[];
     rho=sum(ri.*riplus1);
     t_rho=1/sqrt(size(res,1)-1)*sum(res.^2);
+    n=n+2;
 end
 
 norm_r_star=sqrt(sum((r_star).^2));
@@ -79,5 +80,26 @@ fprintf('The norm of the residual is %d  and the order of the model is %d\n',nor
 figure(1);
 plot(t,y,'o',t,y-r_star,'+')
 xlabel('Time in hours')
-ylabel('Concentration of NO in ?g/m3 ')
+ylabel('Concentration of NO in microg/m3 ')
 legend('Obersvations','Predictions')
+
+%% Estimating the Standard Deviation of the Solution Coefficients
+m=length(t);
+n=zeros((m/2-1),1);
+s=zeros((m/2-1),1);
+n(1)=3;
+k=1;
+while n(k)<=m
+    [x_star,r_star] = NOfit(t,y,n(k));
+    s(k)=sqrt(sum(r_star.*r_star)/(m-n(k)));
+    n(k+1)=n(k)+2;
+    k=k+1;
+end
+
+figure(2)
+plot(n(1:end-1),s,'o')
+xlabel('Order n')
+ylabel('Scaled residual norm s')
+
+    
+%n=19 ->solution

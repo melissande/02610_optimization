@@ -14,7 +14,7 @@ function [x_star,r_star] = NOfit(t,y,n)
 A=zeros(size(y,1),n);
 A(:,1)=ones(size(y,1),1);
 w=2*pi/size(y,1);
-for i=1:round((n-1)/2)
+for i=1:floor(n/2)
     A(:,2*i:2*i+1)=[sin(i*w*t),cos(i*w*t)];
 end
 
