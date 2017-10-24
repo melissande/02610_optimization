@@ -18,29 +18,39 @@ make_contour_plot_init( func, [ 0.08667,2.88425;-3.07302,-0.08135; 3.38515,0.073
 
 %% Verify that df=0 for all sationary points
 for i=1:size(x_sad,1)
-    [f,df,d2f]=func_basis_2(x_sad(i,:));
+    [f,df,d2f]=func_basis_2(x_sad(i,:)');
    fprintf('Saddle point %d: df=[%d,%d]  and d2f=[%d,%d;%d,%d] \n',i,df,d2f)
+   [V,D] = eig(d2f);
+   fprintf('The eigen values are: [%d,%d]so the matrix is Indefinite\n',diag(D));
 end
+fprintf('\n');
 
 for i=1:size(x_min,1)
-    [f,df,d2f]=func_basis_2(x_min(i,:));
+    [f,df,d2f]=func_basis_2(x_min(i,:)');
    fprintf('Local minimum %d: df=[%d,%d]  and d2f=[%d,%d;%d,%d] \n',i,df,d2f)
+   [V,D] = eig(d2f);
+   fprintf('The eigen values are: [%d,%d]so the matrix is Positive Definite\n',diag(D));
 end
-
+fprintf('\n');
 for i=1:size(x_max,1)
-    [f,df,d2f]=func_basis_2(x_max(i,:));
+    [f,df,d2f]=func_basis_2(x_max(i,:)');
    fprintf('Local maximum %d: df=[%d,%d]  and d2f=[%d,%d;%d,%d] \n',i,df,d2f)
+   [V,D] = eig(d2f);
+    fprintf('The eigen values are: [%d,%d]so the matrix is Negative Definite\n',diag(D));
 end
-
-[f,df,d2f]=func_basis_2(x_global_min);
+fprintf('\n');
+[f,df,d2f]=func_basis_2(x_global_min');
 fprintf('Global minimum %d: df=[%d,%d]  and d2f=[%d,%d;%d,%d] \n',i,df,d2f)
+[V,D] = eig(d2f);
+ fprintf('The eigen values are: [%d,%d]so the matrix is Negative Definite\n',diag(D));
+fprintf('\n');
 %% Q2.4:  Steepest Descent algorithm
 fignumber=1;
 %Remark: basically falls into all the stationary points ever (not max though)
 %when close to but alwayse cvg to something
 x_global_min=[3,2];
 
-disp('Close to the global minimum')
+disp('Pretty Close to the global minimum and far away from any other stationary point')
 x0=[5,5]';
 fprintf('x0=[%d,%d]\n',x0);
 [xopt,stat]=steepest_my_ls(@func_basis,x0);
@@ -52,17 +62,97 @@ fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
+
+disp('Close to Global Minimum and surrounded by stationary points')
+x0=[0,0]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=steepest_my_ls(@func_basis,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp('Far away from Global Minimum and surrounded by stationary points')
+x0=[-5,-5]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=steepest_my_ls(@func_basis,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp('Close from Global Minimum and with some stationary points around')
+x0=[-1,0]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=steepest_my_ls(@func_basis,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp('Away from Global Minimum and with some stationary points around')
+x0=[-5,0]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=steepest_my_ls(@func_basis,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp('Away from Global Minimum and surrounded by  stationary points around')
+x0=[0,-4]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=steepest_my_ls(@func_basis,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp('Close from Global Minimum and surrounded by  stationary points around')
+x0=[3,-2]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=steepest_my_ls(@func_basis,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp(' Very Close from Global Minimum and surrounded by  stationary points around')
+x0=[3,0]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=steepest_my_ls(@func_basis,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 %% Q2.4:  Newton's algorithm
-%HUGE lack of global cvg
-%it's due to the fact that the direction of search is nto DOWNHILL 
-%so we basically DON'T move
+
 fignumber=1;
 
-%Remark: basically falls into all the stationary points ever (not max though)
-%when close to but alwayse cvg to something
 x_global_min=[3,2];
 
-disp('Close to the global minimum')
+disp('Pretty Close to the global minimum and far away from any other stationary point')
 x0=[5,5]';
 fprintf('x0=[%d,%d]\n',x0);
 [xopt,stat]=newton_my_ls(@func_basis,@func_basis_2,x0);
@@ -72,11 +162,193 @@ error=sqrt(sum((stat.X'-x_global_min).^2,2));
 [p,c]= cvg_rate( error, fignumber);
 fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
-make_contour_plot( func, stat.X', x_global_min',fignumber ,[])
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
 
+disp('Close to Global Minimum and surrounded by stationary points')
+x0=[0,0]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=newton_my_ls(@func_basis,@func_basis_2,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp('Far away from Global Minimum and surrounded by stationary points')
+x0=[-5,-5]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=newton_my_ls(@func_basis,@func_basis_2,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp('Close from Global Minimum and with some stationary points around')
+x0=[-1,0]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=newton_my_ls(@func_basis,@func_basis_2,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp('Away from Global Minimum and with some stationary points around')
+x0=[-5,0]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=newton_my_ls(@func_basis,@func_basis_2,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp('Away from Global Minimum and surrounded by  stationary points around')
+x0=[0,-4]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=newton_my_ls(@func_basis,@func_basis_2,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp('Close from Global Minimum and surrounded by  stationary points around')
+x0=[3,-2]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=newton_my_ls(@func_basis,@func_basis_2,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp(' Very Close from Global Minimum and surrounded by  stationary points around')
+x0=[3,0]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=newton_my_ls(@func_basis,@func_basis_2,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 %% Q2.5:BFGS
 
-x0=[3.1,2.1]';
+
+
+fignumber=1;
+
+x_global_min=[3,2];
+
+disp('Pretty Close to the global minimum and far away from any other stationary point')
+x0=[5,5]';
 fprintf('x0=[%d,%d]\n',x0);
 [xopt,stat]=bfgs_my_ls(@func_basis,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+fignumber=fignumber+1;
+
+disp('Close to Global Minimum and surrounded by stationary points')
+x0=[0,0]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=bfgs_my_ls(@func_basis,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp('Far away from Global Minimum and surrounded by stationary points')
+x0=[-5,-5]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=bfgs_my_ls(@func_basis,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp('Close from Global Minimum and with some stationary points around')
+x0=[-1,0]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=bfgs_my_ls(@func_basis,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp('Away from Global Minimum and with some stationary points around')
+x0=[-5,0]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=bfgs_my_ls(@func_basis,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp('Away from Global Minimum and surrounded by  stationary points around')
+x0=[0,-4]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=bfgs_my_ls(@func_basis,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp('Close from Global Minimum and surrounded by  stationary points around')
+x0=[3,-2]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=bfgs_my_ls(@func_basis,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
+
+disp(' Very Close from Global Minimum and surrounded by  stationary points around')
+x0=[3,0]';
+fprintf('x0=[%d,%d]\n',x0);
+[xopt,stat]=bfgs_my_ls(@func_basis,x0);
+
+fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
+error=sqrt(sum((stat.X'-x_global_min).^2,2));
+[p,c]= cvg_rate( error, fignumber);
+fignumber=fignumber+1;
+fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
+make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
