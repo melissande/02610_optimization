@@ -1,4 +1,4 @@
-function [ xn,fn,gn,dv ] = my_line_search(fun,x ,f,g,h,dv,opts )
+function [ xn,fn,gn,dv ] = my_line_search(fun,x,f,g,h,dv,opts )
 %my_line_search  Find  am = argmin_{a > 0}{ P(a) = f(x+a*h) } , where  x  and  
 % h  are given n-vectors and the scalar function  f  and its gradient  g  
 % (with elements  g(i) = Df/Dx_i ) must be given by a MATLAB function with 
