@@ -1,4 +1,4 @@
-function [x_star,r_star] = NOfit(t,y,n)
+function [x_star,r_star,A] = NOfit(t,y,n)
 %NOfit that computes the least squares fit with the model defines in the function
 %to the data points in the vectors t and y. The order of the fit is n, 
 %which must be an odd number, and the underlying basis functions are the trigonometric functions
@@ -9,6 +9,7 @@ function [x_star,r_star] = NOfit(t,y,n)
 %% OUTPUT
 %x_star: model vector
 %r_star:residual 
+%A: matrix model
 %%
 
 A=zeros(size(y,1),n);

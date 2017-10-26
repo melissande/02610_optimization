@@ -24,10 +24,13 @@ legend('Obersvations','Predictions')
 %% Test for random sign
 
 m=length(t);
+%Used to check the algo is working but it's not .. for the moment!
 res=zeros(m,(m/2-1));
-N_runs=zeros(m,(m/2-1),1);
-n_plus=zeros(m,(m/2-1),1);
-n_moins=zeros(m,(m/2-1),1);
+Bin=zeros(m,(m/2-1));
+N_runs=zeros((m/2-1),1);
+N_plus=zeros((m/2-1),1);
+N_moins=zeros((m/2-1),1);
+%
 z=zeros((m/2-1),1);
 order=zeros((m/2-1),1);
 n=3;
@@ -46,15 +49,19 @@ for k=1:3
     [x_star,r_star] = NOfit(t,y,n);
     res(:,k)=r_star;
     %res(res==0)=[];
-    p=length(res(:,k));
+
     bin_sign_r=res(:,k)>0;
-    N_runs(:,k)=nnz(diff(bin_sign_r))+1;
-    n_plus(:,k)=sum(bin_sign_r);
-    n_moins(:,k)=sum(~bin_sign_r);
+    Bin(:,k)=bin_sign_r;
+    n_runs=nnz(diff(bin_sign_r))+1;
+    n_plus=sum(bin_sign_r);
+    n_moins=sum(~bin_sign_r);
     mu_u=(2*n_plus+n_moins)/m+1;
     var_u=(mu_u-1)*(mu_u-2)/(m-1);
-    z_plus_moins=abs(N_runs-mu_u)/sqrt(var_u);
+    z_plus_moins=abs(n_runs-mu_u)/sqrt(var_u);
     
+    N_runs(k)=n_runs;
+    N_plus(k)=n_plus;
+    N_moins(k)=n_moins;
     z(k)=z_plus_moins;
     order(k)=n;
     %k=k+1;
