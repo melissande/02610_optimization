@@ -22,28 +22,43 @@ legend('Obersvations','Predictions')
 %% Q3: Optimal order of the fit
 
 %% Test for random sign
+
+m=length(t);
+res=zeros(m,(m/2-1));
+N_runs=zeros(m,(m/2-1),1);
+n_plus=zeros(m,(m/2-1),1);
+n_moins=zeros(m,(m/2-1),1);
+z=zeros((m/2-1),1);
+order=zeros((m/2-1),1);
 n=3;
+
 z_plus_moins=2;
-while z_plus_moins>=1.96
-    n=n+2;
-    if n>24
-        
+k=1;
+%while z_plus_moins>=1.96
+for k=1:3
+    if n>=24
+        n=n-2;
         disp ('stop')
         fprintf('z+-=%d',z_plus_moins)
         break
     end
+    
     [x_star,r_star] = NOfit(t,y,n);
-    res=r_star;
-    res(res==0)=[];
-    m=length(res);
-    bin_sign_r=res>0;
+    res(:,k)=r_star;
+    %res(res==0)=[];
+
+    bin_sign_r=res(:,k)>0;
     N_runs=nnz(diff(bin_sign_r))+1;
-    n_plus=sum(bin_sign_r);
-    n_moins=sum(~bin_sign_r);
+    n_plus(k)=sum(bin_sign_r);
+    n_moins(k)=sum(~bin_sign_r);
     mu_u=(2*n_plus+n_moins)/m+1;
     var_u=(mu_u-1)*(mu_u-2)/(m-1);
     z_plus_moins=abs(N_runs-mu_u)/sqrt(var_u);
     
+    z(k)=z_plus_moins;
+    order(k)=n;
+    %k=k+1;
+    n=n+2;
 end
 
 norm_r_star=sqrt(sum((r_star).^2));
@@ -83,6 +98,7 @@ xlabel('Time in hours')
 ylabel('Concentration of NO in microg/m3 ')
 legend('Obersvations','Predictions')
 
+%n=9->solution
 %% Estimating the Standard Deviation of the Solution Coefficients
 m=length(t);
 n=zeros((m/2-1),1);

@@ -53,7 +53,7 @@ x_global_min=[3,2];
 disp('Pretty Close to the global minimum and far away from any other stationary point')
 x0=[5,5]';
 fprintf('x0=[%d,%d]\n',x0);
-[xopt,stat]=steepest_my_ls(@func_basis,x0);
+[xopt,stat]=steepest_optim_ls(@func_basis,x0);
 
 fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
 error=sqrt(sum((stat.X'-x_global_min).^2,2));
@@ -66,7 +66,7 @@ fignumber=fignumber+1;
 disp('Close to Global Minimum and surrounded by stationary points')
 x0=[0,0]';
 fprintf('x0=[%d,%d]\n',x0);
-[xopt,stat]=steepest_my_ls(@func_basis,x0);
+[xopt,stat]=steepest_optim_ls(@func_basis,x0);
 
 fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
 error=sqrt(sum((stat.X'-x_global_min).^2,2));
@@ -78,7 +78,7 @@ make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 disp('Far away from Global Minimum and surrounded by stationary points')
 x0=[-5,-5]';
 fprintf('x0=[%d,%d]\n',x0);
-[xopt,stat]=steepest_my_ls(@func_basis,x0);
+[xopt,stat]=steepest_optim_ls(@func_basis,x0);
 
 fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
 error=sqrt(sum((stat.X'-x_global_min).^2,2));
@@ -90,7 +90,7 @@ make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 disp('Close from Global Minimum and with some stationary points around')
 x0=[-1,0]';
 fprintf('x0=[%d,%d]\n',x0);
-[xopt,stat]=steepest_my_ls(@func_basis,x0);
+[xopt,stat]=steepest_optim_ls(@func_basis,x0);
 
 fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
 error=sqrt(sum((stat.X'-x_global_min).^2,2));
@@ -102,7 +102,7 @@ make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 disp('Away from Global Minimum and with some stationary points around')
 x0=[-5,0]';
 fprintf('x0=[%d,%d]\n',x0);
-[xopt,stat]=steepest_my_ls(@func_basis,x0);
+[xopt,stat]=steepest_optim_ls(@func_basis,x0);
 
 fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
 error=sqrt(sum((stat.X'-x_global_min).^2,2));
@@ -114,7 +114,7 @@ make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 disp('Away from Global Minimum and surrounded by  stationary points around')
 x0=[0,-4]';
 fprintf('x0=[%d,%d]\n',x0);
-[xopt,stat]=steepest_my_ls(@func_basis,x0);
+[xopt,stat]=steepest_optim_ls(@func_basis,x0);
 
 fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
 error=sqrt(sum((stat.X'-x_global_min).^2,2));
@@ -126,7 +126,7 @@ make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 disp('Close from Global Minimum and surrounded by  stationary points around')
 x0=[3,-2]';
 fprintf('x0=[%d,%d]\n',x0);
-[xopt,stat]=steepest_my_ls(@func_basis,x0);
+[xopt,stat]=steepest_optim_ls(@func_basis,x0);
 
 fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
 error=sqrt(sum((stat.X'-x_global_min).^2,2));
@@ -138,7 +138,7 @@ make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 disp(' Very Close from Global Minimum and surrounded by  stationary points around')
 x0=[3,0]';
 fprintf('x0=[%d,%d]\n',x0);
-[xopt,stat]=steepest_my_ls(@func_basis,x0);
+[xopt,stat]=steepest_optim_ls(@func_basis,x0);
 
 fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
 error=sqrt(sum((stat.X'-x_global_min).^2,2));

@@ -1,18 +1,19 @@
-function [x, stat] = LeverbergMarquardt(fun,x0)
-
+function [x,stat] = steepest_optim_ls(fun,x0)
 % Solver settings and info
 tic;
 
 maxit = 100*length(x0);
 tol   = 1.0e-10;
 
-stat.converged = false; % converged
-stat.nfun      = 0;     % number of function calls
-stat.iter      = 0;     % number of iterations
+stat.converged = false;% converged
+stat.nfun      = 0;% number of function calls
+stat.iter      = 0;% number of iterations
+
 
 % Initial iteration
 x = x0;
 it = 0;
+
 
 
 [f,df] = feval(fun,x);
@@ -32,8 +33,10 @@ while ~converged && (it < maxit)
     % ================================================
     d = -df;
 
-    [x,~,~,eval] =my_line_search(fun, x,f,df, d,stat.nfun,[]);
-    stat.nfun=eval;
+    
+    [x,~,~,info,~] =linesearch(fun,x,f,df, d,[]);
+
+    stat.nfun=stat.nfun+info(3);
     
     
     % ================================================
