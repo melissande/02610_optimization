@@ -3,7 +3,7 @@ function [x,stat] = steepest_my_ls(fun,x0)
 tic;
 
 maxit = 100*length(x0);
-tol   = 1.0e-10;
+tol   = 1.0e-5;
 
 stat.converged = false;% converged
 stat.nfun      = 0;% number of function calls

@@ -1,9 +1,9 @@
 function [x,stat] = bfgs_optim_ls(fun,x0)
 % Solver settings and info
 tic;
-maxit=50;
-%maxit = 100*length(x0);
-tol   = 1.0e-10;
+%maxit=50;
+maxit = 100*length(x0);
+tol   = 1.0e-5;
 B  = eye(length(x0));
 stat.converged = false;% converged
 stat.nfun      = 0;% number of function calls
