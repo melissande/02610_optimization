@@ -62,7 +62,7 @@ fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', xopt' ,fignumber )
+convergence_proof( stat.dF', stat.X', x_global_min' ,fignumber )
 fignumber=fignumber+1;
 %%
 disp('Close to Global Minimum and surrounded by stationary points')
@@ -77,7 +77,7 @@ fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', xopt' ,fignumber )
+convergence_proof( stat.dF', stat.X', x_global_min' ,fignumber )
 fignumber=fignumber+1;
 %%
 disp('Close from Global Minimum and with some stationary points around')
@@ -92,7 +92,7 @@ fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', xopt' ,fignumber )
+convergence_proof( stat.dF', stat.X', x_global_min' ,fignumber )
 fignumber=fignumber+1;
 %%
 disp('Away from Global Minimum and surrounded by  stationary points around')
@@ -107,7 +107,7 @@ fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', xopt' ,fignumber )
+convergence_proof( stat.dF', stat.X', x_global_min' ,fignumber )
 fignumber=fignumber+1;
 %%
 disp('Close from Global Minimum and surrounded by  stationary points around')
@@ -122,7 +122,7 @@ fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', xopt' ,fignumber )
+convergence_proof( stat.dF', stat.X', x_global_min' ,fignumber )
 fignumber=fignumber+1;
 %% Q2.4:  Newton's algorithm
 
@@ -142,7 +142,7 @@ fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', xopt' ,fignumber )
+convergence_proof( stat.dF', stat.X', x_global_min' ,fignumber )
 fignumber=fignumber+1;
 %%
 disp('Close to Global Minimum and surrounded by stationary points')
@@ -157,7 +157,7 @@ fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', xopt' ,fignumber )
+convergence_proof( stat.dF', stat.X', x_global_min' ,fignumber )
 fignumber=fignumber+1;
 %%
 disp('Far away from Global Minimum and surrounded by stationary points')
@@ -172,7 +172,7 @@ fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', xopt' ,fignumber )
+convergence_proof( stat.dF', stat.X', x_global_min' ,fignumber )
 fignumber=fignumber+1;
 %%
 disp('Away from Global Minimum and surrounded by  stationary points around')
@@ -187,7 +187,7 @@ fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', xopt' ,fignumber )
+convergence_proof( stat.dF', stat.X', x_global_min' ,fignumber )
 fignumber=fignumber+1;
 %%
 
@@ -204,7 +204,7 @@ fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', xopt' ,fignumber )
+convergence_proof( stat.dF', stat.X', x_global_min' ,fignumber )
 fignumber=fignumber+1;
 %% Q2.5:BFGS
 
@@ -226,7 +226,7 @@ fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', xopt' ,fignumber )
+convergence_proof( stat.dF', stat.X', x_global_min' ,fignumber )
 fignumber=fignumber+1;
 %%
 disp('Close to Global Minimum and surrounded by stationary points')
@@ -241,7 +241,7 @@ fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', xopt' ,fignumber )
+convergence_proof( stat.dF', stat.X', x_global_min' ,fignumber )
 fignumber=fignumber+1;
 %%
 disp('Far away from Global Minimum and surrounded by stationary points')
@@ -256,7 +256,7 @@ fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', xopt' ,fignumber )
+convergence_proof( stat.dF', stat.X', x_global_min' ,fignumber )
 fignumber=fignumber+1;
 %%
 disp('Away from Global Minimum and surrounded by  stationary points around')
@@ -271,7 +271,7 @@ fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', xopt' ,fignumber )
+convergence_proof( stat.dF', stat.X', x_global_min' ,fignumber )
 fignumber=fignumber+1;
 %%
 disp('Close from Global Minimum and surrounded by  stationary points around')
@@ -286,5 +286,5 @@ fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', xopt' ,fignumber )
+convergence_proof( stat.dF', stat.X', x_global_min' ,fignumber )
 fignumber=fignumber+1;
