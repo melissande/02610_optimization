@@ -90,7 +90,7 @@ while n<=24
     k=k+1;
 end
 
-%n=9->solution
+%n=7-> min order solution
 %% Estimating the Standard Deviation of the Solution Coefficients
 m=length(t);
 n=zeros((m/2-1),1);
@@ -109,10 +109,10 @@ plot(n(1:end-1),s,'o')
 xlabel('Order n')
 ylabel('Scaled residual norm s')
 
-%n=19 ->solution
-n=19;
+%n=7 ->WORKS!
+n=7; %which is s(3)
 [x_star,r_star,A] = NOfit(t,y,n);
-sigma=std(r_star);
+sigma=s(3);
 cov_x=sigma^2*inv(A'*A);
 std_x=sqrt(diag(cov_x));
 
