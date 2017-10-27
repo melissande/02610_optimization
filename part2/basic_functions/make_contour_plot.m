@@ -22,10 +22,11 @@ fs = 10;
 contour(X1,X2,func_eval,50,'linewidth',1)
 if ~isempty(iter)
     hold on
-    scatter(x(:,1), x(:,2),30,'black','filled')
-    b = num2str(iter'); c = cellstr(b);
-    dx = 0.05; dy =0.05;  % displacement so the text does not overlay the data points
-    text(x(:,1)+dx, x(:,2)+dy, c,'Color','black','FontSize',14);
+    plot(x(:,1), x(:,2),'-ok')
+    %scatter(x(:,1), x(:,2),30,'black','filled')
+    %b = num2str(iter'); c = cellstr(b);
+    %dx = 0.05; dy =0.05;  % displacement so the text does not overlay the data points
+    %text(x(:,1)+dx, x(:,2)+dy, c,'Color','black','FontSize',14);
     
 end
 if ~isempty(xopt)
@@ -42,7 +43,6 @@ if ~isempty(zoom)
     ylim(zoom(2,:))
 else 
     axis equal
-title('Contour Plot')
 colormap hsv;
 colorbar
 
