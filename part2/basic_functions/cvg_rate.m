@@ -17,6 +17,8 @@ A=[ones(length(ek),1),log(ek)];
 x=A\b;
 p=x(2);
 c=exp(x(1));
+
+
 %% Type of convergence
 iter=1:length(ek);
 
