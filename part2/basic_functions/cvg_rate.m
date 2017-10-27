@@ -29,7 +29,7 @@ if (p>=0.9 && p<=1.1)
     xlabel('iteration k')
     ylabel('e_{k+1}/e_k')
     title('Linear Convergence')
-    p=round(p);
+
 elseif (p>=1.9 && p<=2.1)
     x=iter';
     y=ek_next./ek.^2;
@@ -37,7 +37,7 @@ elseif (p>=1.9 && p<=2.1)
     xlabel('iteration k')
     ylabel('e_{k+1}/e_k^2')
     title('Quadratic Convergence')
-    p=round(p);
+
 elseif (1<p && p<2)
     x=iter';
     y=ek_next./ek;
