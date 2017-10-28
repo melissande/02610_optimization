@@ -19,7 +19,7 @@ it = 0;
 [f,df] = feval(fun,x);
 
 converged = (norm(df,'inf') <= tol);
-stat.nfun = 1;
+stat.nfun = 2; %function + gradeient
 stat.tmp=0;
 % Store data for plotting
 stat.X = x;
@@ -41,7 +41,7 @@ while ~converged && (it < maxit)
     
     % ================================================
     [fnew,dfnew] = feval(fun,xnew);
-    
+
     
     converged = (norm(dfnew,'inf') <= tol);
     
@@ -52,7 +52,7 @@ while ~converged && (it < maxit)
     x = xnew;
     f = fnew;
     df = dfnew;
-    stat.nfun = stat.nfun+1;
+    stat.nfun = stat.nfun+2;
     % Store data for plotting
 
     stat.X  = [stat.X  x];
@@ -65,6 +65,6 @@ x = [];
 end
 stat.converged = converged;
 stat.iter = it;
-toc;
+
 stat.tmp=toc;
 end

@@ -53,7 +53,7 @@ if (h'*g<0)
         while (~stop && k<kmax)
             k=k+1;
             [f_b,df_b]=feval(fun,x+b*h);
-            dv=dv+1;
+            dv=dv+2; %function eval + gradient 
             if f_b<f+beta1*h'*g*b %P(b)<lambda(b)
                 %lambda(alpha)<-P(0)+beta1*P'(0)*alpha
                 %P(alpha)<-f(x+alpha*h)
@@ -79,12 +79,12 @@ if (h'*g<0)
             k=k+1;
             [alpha,a,b,dv]=refine(a,b,x,fun,f,g,h,beta1,dv);
             [f_alpha,df_alpha]=feval(fun,x+alpha*h);
-            dv=dv+1;
+            dv=dv+2;
             stop=((f_alpha<=f+beta1*h'*g*alpha)&&(h'*df_alpha>=beta2*h'*g));
             
         end
         [f_alpha,df_alpha]=feval(fun,x+alpha*h);
-        dv=dv+1;
+        dv=dv+2;
         if f_alpha>=f
             alpha=0;
         end

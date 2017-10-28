@@ -17,6 +17,7 @@ it = 0;
 
 
 [f,df,d2f] = feval(fundfun,x);
+
 converged = (norm(df,'inf') <= tol);
 stat.nfun = 1;
 stat.tmp=0;

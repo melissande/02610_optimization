@@ -18,7 +18,7 @@ it = 0;
 
 [f,df,d2f] = feval(fundfun,x);
 converged = (norm(df,'inf') <= tol);
-stat.nfun = 1;
+stat.nfun = 3;
 stat.tmp=0;
 % Store data for plotting
 stat.X = x;
@@ -32,7 +32,8 @@ while ~converged && (it < maxit)
     % Newton's algo
     % TODO -- Insert code between the lines
     % ================================================
-    d = -d2f\(df);
+    d = -(d2f\df);
+   
   
     [x,~,~,eval] =my_line_search(fun, x,f,df, d,stat.nfun,[]);
     stat.nfun=eval;
@@ -43,7 +44,7 @@ while ~converged && (it < maxit)
     
     
     converged = (norm(df,'inf') <= tol);
-    stat.nfun = stat.nfun+1;
+    stat.nfun = stat.nfun+3;
     % Store data for plotting
 
     stat.X  = [stat.X  x];
@@ -57,6 +58,6 @@ x = [];
 end
 stat.converged = converged;
 stat.iter = it;
-toc;
+
 stat.tmp=toc;
 end
