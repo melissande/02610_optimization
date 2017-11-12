@@ -4,6 +4,10 @@ function [p,c]= cvg_rate( error,fig_number )
 %Depending on the type of convergence (linear, superlinear, quadratic), 
 %a figure is plotted to demonstrate the convergence
 %fig_number: count for figure so that it doesn't overwrite
+%error: vector with error at each iteration
+%p: convergence rate
+%c: constant (limit at k ->infinity) 
+
 %% Define the prediction error "shifted"
 ek=error;
 ek(end)=[];

@@ -166,13 +166,13 @@ fprintf('x0=[%d,%d]\n',x0);
 [xopt,stat]=newton_optim_ls(@func_basis,@func_basis_2,x0);
 
 fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
-error=sqrt(sum((stat.X'-x_global_min).^2,2));
+error=sqrt(sum((stat.X'-x_sad(2,:) ).^2,2));
 [p,c]= cvg_rate( error, fignumber);
 fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', x_global_min ,fignumber )
+convergence_proof( stat.dF', stat.X', x_sad(2,:)  ,fignumber )
 fignumber=fignumber+1;
 %%
 disp('Away from Global Minimum and surrounded by  stationary points around')
@@ -250,13 +250,13 @@ fprintf('x0=[%d,%d]\n',x0);
 [xopt,stat]=bfgs_optim_ls(@func_basis,x0);
 
 fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
-error=sqrt(sum((stat.X'-x_global_min).^2,2));
+error=sqrt(sum((stat.X'- x_min(1,:)).^2,2));
 [p,c]= cvg_rate( error, fignumber);
 fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', x_global_min ,fignumber )
+convergence_proof( stat.dF', stat.X', x_min(1,:) ,fignumber )
 fignumber=fignumber+1;
 %%
 disp('Away from Global Minimum and surrounded by  stationary points around')
@@ -265,13 +265,13 @@ fprintf('x0=[%d,%d]\n',x0);
 [xopt,stat]=bfgs_optim_ls(@func_basis,x0);
 
 fprintf('Global Minimum estimated: [%d,%d] in %d iterations,%d functions evaluated in %d seconds\n',xopt,stat.iter,stat.nfun,stat.tmp);
-error=sqrt(sum((stat.X'-x_global_min).^2,2));
+error=sqrt(sum((stat.X'-x_min(3,:)).^2,2));
 [p,c]= cvg_rate( error, fignumber);
 fignumber=fignumber+1;
 fprintf('Convergence rate: %d and constant limit : %d\n',p,c);
 make_contour_plot( func, stat.X', x_global_min',fignumber,[] )
 fignumber=fignumber+1;
-convergence_proof( stat.dF', stat.X', x_global_min ,fignumber )
+convergence_proof( stat.dF', stat.X', x_min(3,:) ,fignumber )
 fignumber=fignumber+1;
 %%
 disp('Close from Global Minimum and surrounded by  stationary points around')
