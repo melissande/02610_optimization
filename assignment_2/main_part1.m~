@@ -31,7 +31,7 @@ H=A'*A;
 g=-A'*b;
 gamma=-1/2*(b)'*b;
 
-x_ls=-H\g;
+x_ls=-inv(H)*g;
 
 y_ls=A*x_ls;
 figure(2)
@@ -61,8 +61,8 @@ title('Histogram of the errors for Least Square Solution without outliers')
 %Goodness of the fit
 
 %Predictions
-std_noise = sqrt(sum(res_ls_wo.^2)/n2);
-PI_data_ls = y_ls + tinv([0.025  0.975],n2-p) * std_noise;
+std_noise=sqrt(sum(res_ls_wo.^2)/length(res_ls_wo));
+PI_data_ls=y_ls+tinv([0.025  0.975],n2-p)*std_noise;
 figure(4)
 plot(ti,y_obs,'bo',ti,y_true,'r',ti,y_ls,'g',ti,PI_data_ls(:,1),'--g',ti,PI_data_ls(:,2),'--g');
 legend('Observations','True Model','Least Square Solution','Low Bound PI',' High Bound PI')
@@ -115,7 +115,7 @@ title('Histogram of the errors for L1 Estimate without outliers')
 
 %Predictions
 std_noise=sqrt(sum(res_l1_wo.^2)/length(res_l1_wo));
-PI_data_l1 = y_l1 + tinv([0.025  0.975],n2-p) * std_noise;
+PI_data_l1=y_l1+tinv([0.025  0.975],n2-p)*std_noise;
 
 figure(7)
 plot(ti,y_obs,'bo',ti,y_true,'r',ti,y_l1,'g',ti,PI_data_l1(:,1),'--g',ti,PI_data_l1(:,2),'--g');
