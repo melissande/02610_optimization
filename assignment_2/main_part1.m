@@ -225,6 +225,8 @@ disp(T_l1)
 
 %% Q4 L-inf Estimation
 
+%Constructing and solving the linear unconstrained program solution
+%to the parameters of the model
 f_linf = [zeros(p,1);1];
 A_linf = [-A,-ones(n,1);A,-ones(n,1)];
 b_linf = [-b;b];
@@ -307,41 +309,53 @@ disp(T_linf)
 
 %% Huber-Estimation
 
-f_linf = [zeros(p,1);1];
-A_linf = [-A,-ones(n,1);A,-ones(n,1)];
-b_linf = [-b;b];
+%Constructing and solving the constrained quadratic program solution
+%to the parameters of the model
 
-x_linf = linprog(f_linf,A_linf,b_linf);
-x_linf = x_linf(1:2);
-y_linf = A*x_linf;
+%Refine A to contain 100 columns of zeros.
+A_new = [A,zeros(100,100-p)];
+tau = 3;
+
+%Define necessary inputs to quadprog
+H_huber = [zeros(3*n,n),zeros(3*n,n),zeros(3*n,n),zeros(3*n,n);zeros(n,n),zeros(n,n),zeros(n,n),eye(n)];
+f_huber = [zeros(n,1);tau*ones(n,1);tau*ones(n,1);zeros(n,1)];
+A_huber = [-A_new,-eye(n),eye(n),eye(n)];
+b_huber = -b;
+LB = [-Inf(n,1);zeros(n,1);zeros(n,1);-Inf(n,1)];
+UB = Inf(4*n,1);
+
+x_huber = quadprog(H_huber,f_huber,A_huber,b_huber,A_huber,b_huber,LB,UB);
+x_huber = x_huber(1:2);
+y_huber= A*x_huber;
 
 %Plotting the found parameter-solution against the true model
 figure('DefaultAxesFontSize',16)
-plot(ti,y_obs,'bo',ti,y_true,'r',ti,y_linf,'g');
-title('$L_{\infty}$-Solution with Outliers','Interpreter','Latex')
-legend({'Observations','True Model','$\ell_{\infty}$-Model Solution'},'Interpreter','Latex','Location','northwest')
+plot(ti,y_obs,'bo',ti,y_true,'r',ti,y_huber,'g');
+title('Huber-Solution with Outliers','Interpreter','Latex')
+legend({'Observations','True Model','Huber-Model Solution'},'Interpreter','Latex','Location','northwest')
 xlabel('t')
 ylabel('y')
 set(gca,'TickLabelInterpreter','Latex')
 
+
 %Histogram with outliers
-res_linf = y_obs-y_linf;
+res_huber = y_obs-y_huber;
 
 figure('DefaultAxesFontSize',16)
 subplot(1,2,1)
-hist(res_linf,50);
-title({'Histogram of the Errors for', '$\ell_{\infty}$-Solution with Outliers'},'Interpreter','Latex')
+hist(res_huber,50);
+title({'Histogram of the Errors for', 'Huber-Solution with Outliers'},'Interpreter','Latex')
 xlabel('Residual Value')
 ylabel('Counts')
 
 %Histogram without outliers
-res_linf_wo = res_linf;
-res_linf_wo(idx)=[];
-n2 =length(res_linf_wo);
+res_huber_wo = res_huber;
+res_huber_wo(idx)=[];
+n2 =length(res_huber_wo);
 
 subplot(1,2,2)
-hist(res_linf_wo,50);
-title({'Histogram of the Errors for','$\ell_{\infty}$-Solution without Outliers'},'Interpreter','Latex')
+hist(res_huber_wo,50);
+title({'Histogram of the Errors for','Huber-Solution without Outliers'},'Interpreter','Latex')
 xlabel('Residual Value')
 ylabel('Counts')
 set(gcf,'units','points','position',[10,10,1000,350])
@@ -350,40 +364,39 @@ set(findobj(gcf,'type','axes'),'TickLabelInterpreter','Latex')
 %Define new variables and remove outliers from this data
 ti_wo = ti;
 y_obs_wo = y_obs;
-y_linf_wo = y_linf;
+y_huber_wo = y_huber;
 y_true_wo = y_true;
 
 ti_wo(idx)=[];
 y_obs_wo(idx)=[];
-y_linf_wo(idx)=[];
+y_huber_wo(idx)=[];
 y_true_wo(idx)=[];
 
 %Goodness of the fit
 
 %Predictions
-std_noise_linf = sqrt(sum(res_linf_wo.^2)/(n2-p));
-PI_data_linf = y_linf_wo + tinv([0.025  0.975],n2-p) * std_noise_linf;
+std_noise_huber = sqrt(sum(res_huber_wo.^2)/(n2-p));
+PI_data_huber = y_huber_wo + tinv([0.025  0.975],n2-p) * std_noise_huber;
 
 figure('DefaultAxesFontSize',16)
-plot(ti_wo,y_obs_wo,'bo',ti_wo,y_true_wo,'r',ti_wo,y_linf_wo,'g',ti_wo,PI_data_linf(:,1),'--g',ti_wo,PI_data_linf(:,2),'--g');
-title({'$\ell_{\infty}$-Solution without Outliers', 'including Prediction Interval'},'Interpreter','Latex')
-legend({'Observations','True Model','$\ell_{\infty}$-Solution','Low Bound PI',' High Bound PI'},'Interpreter','Latex','Location','northwest')
+plot(ti_wo,y_obs_wo,'bo',ti_wo,y_true_wo,'r',ti_wo,y_huber_wo,'g',ti_wo,PI_data_huber(:,1),'--g',ti_wo,PI_data_huber(:,2),'--g');
+title({'Huber-Solution without Outliers', 'including Prediction Interval'},'Interpreter','Latex')
+legend({'Observations','True Model','Huber-Solution','Low Bound PI',' High Bound PI'},'Interpreter','Latex','Location','northwest')
 xlabel('t')
 ylabel('y')
 set(gca,'TickLabelInterpreter','Latex')
 
 %Confidence Interval for the Parameters in x
-cov_param_linf = std_noise_linf^2*inv(A'*A);
-std_param_linf = diag(sqrt(cov_param_linf));
+cov_param_huber = std_noise_huber^2*inv(A'*A);
+std_param_huber = diag(sqrt(cov_param_huber));
 for i = 1:2
-    confint_param_linf(i,:) = x_linf(i)+tinv([0.025  0.975],p)*std_param_linf(i);
+    confint_param_huber(i,:) = x_huber(i)+tinv([0.025  0.975],p)*std_param_huber(i);
 end
 disp('LS: Confidence Interval for Parameters')
-disp(confint_param_linf)
+disp(confint_param_huber)
 
 %Display the final table containing all relevant data
-T_linf = table(x_linf, tinv(0.975,p)*std_param_linf, std_param_linf, corrcov(cov_param_linf));
-T_linf.Properties.VariableNames = {'Estimate','ConfidenceInterval','StandardDeviation','CorrelationMatrix'};
-T_linf.Properties.RowNames = {'x1','x2'};
-disp(T_linf)
-
+T_huber = table(x_huber, tinv(0.975,p)*std_param_huber, std_param_huber, corrcov(cov_param_huber));
+T_huber.Properties.VariableNames = {'Estimate','ConfidenceInterval','StandardDeviation','CorrelationMatrix'};
+T_huber.Properties.RowNames = {'x1','x2'};
+disp(T_huber)
