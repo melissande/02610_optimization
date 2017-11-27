@@ -120,7 +120,6 @@ theta2 = 0:0.005:5;
 [Theta1,Theta2] = meshgrid(theta1,theta2);
 F=zeros(length(theta2),length(theta1));
 for i=1:n
- 
     F=F+(r(i)-Theta1*cs(i)./(Theta2+cs(i))).^2;
 end
 
@@ -130,11 +129,9 @@ F=1/2*sqrt(F);
 v = [0:0.01:5 0:0.01:0.8 0:0.005:2];
 [c,h]=contour(Theta1,Theta2,F,v,'linewidth',2);
 hold on;
- scatter(x_opt(1),x_opt(2),100,'reds','filled','h')
+ scatter(xopt(1),xopt(2),100,'re','filled','h')
 title('Contour plot of Phi')
 xlabel('Theta 1')
 ylabel('Theta 2')
 colorbar
-
-%% Plot reaction
 
