@@ -32,8 +32,8 @@ figure('DefaultAxesFontSize',16)
 plot(ti,y_obs,'bo',ti,y_true,'r');
 title('Observations and True Model','Interpreter','Latex')
 legend('Observations','True Model','Location','northwest')
-xlabel('t')
-ylabel('y')
+xlabel('t','Interpreter','Latex')
+ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
 
 
@@ -53,8 +53,8 @@ figure('DefaultAxesFontSize',16)
 plot(ti,y_obs,'bo',ti,y_true,'r',ti,y_ls,'g');
 title('$\ell_{2}$-Solution with Outliers','Interpreter','Latex')
 legend({'Observations','True Model','$\ell_{2}$-Model Solution'},'Interpreter','Latex','Location','northwest')
-xlabel('t')
-ylabel('y')
+xlabel('t','Interpreter','Latex')
+ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
 
 %Histogram with outliers
@@ -64,8 +64,8 @@ figure('DefaultAxesFontSize',16)
 subplot(1,2,1)
 hist(res_ls,50);
 title({'Histogram of the Errors for', '$\ell_{2}$-Solution with Outliers'},'Interpreter','Latex')
-xlabel('Residual Value')
-ylabel('Counts')
+xlabel('Residual Value','Interpreter','Latex')
+ylabel('Counts','Interpreter','Latex')
 
 %Histogram without outliers
 res_ls_wo=res_ls;
@@ -75,8 +75,8 @@ n2=length(res_ls_wo);
 subplot(1,2,2)
 hist(res_ls_wo,50);
 title({'Histogram of the Errors for','$\ell_{2}$-Solution without Outliers'},'Interpreter','Latex')
-xlabel('Residual Value')
-ylabel('Counts')
+xlabel('Residual Value','Interpreter','Latex')
+ylabel('Counts','Interpreter','Latex')
 set(gcf,'units','points','position',[10,10,1000,350])
 set(findobj(gcf,'type','axes'),'TickLabelInterpreter','Latex')
 
@@ -125,8 +125,8 @@ figure('DefaultAxesFontSize',16)
 plot(ti_wo,y_obs_wo,'bo',ti_wo,y_true_wo,'r',ti_wo,y_ls_wo,'g',ti_wo,PI_data_ls(:,1),'--g',ti_wo,PI_data_ls(:,2),'--g');
 title({'$\ell_{2}$-Solution without Outliers', 'including Prediction Interval'},'Interpreter','Latex')
 legend({'Observations','True Model','$\ell_{2}$-Solution','Low Bound PI',' High Bound PI'},'Interpreter','Latex','Location','northwest')
-xlabel('t')
-ylabel('y')
+xlabel('t','Interpreter','Latex')
+ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
 
 %Confidence Interval for the Parameters in x
@@ -161,8 +161,8 @@ figure('DefaultAxesFontSize',16)
 plot(ti,y_obs,'bo',ti,y_true,'r',ti,y_l1,'g');
 title('$\ell_{1}$-Solution with Outliers','Interpreter','Latex')
 legend({'Observations','True Model','$\ell_{1}$-Model Solution'},'Interpreter','Latex','Location','northwest')
-xlabel('t')
-ylabel('y')
+xlabel('t','Interpreter','Latex')
+ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
 
 %Histogram with outliers
@@ -171,8 +171,8 @@ figure('DefaultAxesFontSize',16)
 subplot(1,2,1)
 hist(res_l1,50);
 title({'Histogram of the Errors for', '$\ell_{1}$-Solution with Outliers'},'Interpreter','Latex')
-xlabel('Residual Value')
-ylabel('Counts')
+xlabel('Residual Value','Interpreter','Latex')
+ylabel('Counts','Interpreter','Latex')
 
 %Histogram without outliers
 res_l1_wo=res_l1;
@@ -182,8 +182,8 @@ n2=length(res_l1_wo);
 subplot(1,2,2)
 hist(res_l1_wo,50);
 title({'Histogram of the Errors for', '$\ell_{1}$-Solution without Outliers'},'Interpreter','Latex')
-xlabel('Residual Value')
-ylabel('Counts')
+xlabel('Residual Value','Interpreter','Latex')
+ylabel('Counts','Interpreter','Latex')
 set(gcf,'units','points','position',[10,10,1000,350])
 set(findobj(gcf,'type','axes'),'TickLabelInterpreter','Latex')
 
@@ -212,8 +212,8 @@ figure('DefaultAxesFontSize',16)
 plot(ti_wo,y_obs_wo,'bo',ti_wo,y_true_wo,'r',ti_wo,y_l1_wo,'g',ti_wo,PI_data_l1(:,1),'--g',ti_wo,PI_data_l1(:,2),'--g');
 title({'$\ell_{1}$-Solution without Outliers', 'including Prediction Interval'},'Interpreter','Latex')
 legend({'Observations','True Model','$\ell_{1}$-Solution','Low Bound PI',' High Bound PI'},'Interpreter','Latex','Location','northwest')
-xlabel('t')
-ylabel('y')
+xlabel('t','Interpreter','Latex')
+ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
 
 %Confidence Interval for the Parameters in x
@@ -222,7 +222,7 @@ std_param_l1 = diag(sqrt(cov_param_l1));
 for i = 1:2
     confint_param_l1(i,:) = x_l1(i)+tinv([0.025  0.975],n2-p)*std_param_l1(i);
 end
-disp('LS: Confidence Interval for Parameters')
+disp('l1: Confidence Interval for Parameters')
 disp(confint_param_l1)
 
 %Display the final table containing all relevant data
@@ -248,8 +248,8 @@ figure('DefaultAxesFontSize',16)
 plot(ti,y_obs,'bo',ti,y_true,'r',ti,y_linf,'g');
 title('$L_{\infty}$-Solution with Outliers','Interpreter','Latex')
 legend({'Observations','True Model','$\ell_{\infty}$-Model Solution'},'Interpreter','Latex','Location','northwest')
-xlabel('t')
-ylabel('y')
+xlabel('t','Interpreter','Latex')
+ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
 
 %Histogram with outliers
@@ -259,8 +259,8 @@ figure('DefaultAxesFontSize',16)
 subplot(1,2,1)
 hist(res_linf,50);
 title({'Histogram of the Errors for', '$\ell_{\infty}$-Solution with Outliers'},'Interpreter','Latex')
-xlabel('Residual Value')
-ylabel('Counts')
+xlabel('Residual Value','Interpreter','Latex')
+ylabel('Counts','Interpreter','Latex')
 
 %Histogram without outliers
 res_linf_wo = res_linf;
@@ -270,8 +270,8 @@ n2 =length(res_linf_wo);
 subplot(1,2,2)
 hist(res_linf_wo,50);
 title({'Histogram of the Errors for','$\ell_{\infty}$-Solution without Outliers'},'Interpreter','Latex')
-xlabel('Residual Value')
-ylabel('Counts')
+xlabel('Residual Value','Interpreter','Latex')
+ylabel('Counts','Interpreter','Latex')
 set(gcf,'units','points','position',[10,10,1000,350])
 set(findobj(gcf,'type','axes'),'TickLabelInterpreter','Latex')
 
@@ -299,8 +299,8 @@ figure('DefaultAxesFontSize',16)
 plot(ti_wo,y_obs_wo,'bo',ti_wo,y_true_wo,'r',ti_wo,y_linf_wo,'g',ti_wo,PI_data_linf(:,1),'--g',ti_wo,PI_data_linf(:,2),'--g');
 title({'$\ell_{\infty}$-Solution without Outliers', 'including Prediction Interval'},'Interpreter','Latex')
 legend({'Observations','True Model','$\ell_{\infty}$-Solution','Low Bound PI',' High Bound PI'},'Interpreter','Latex','Location','northwest')
-xlabel('t')
-ylabel('y')
+xlabel('t','Interpreter','Latex')
+ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
 
 %Confidence Interval for the Parameters in x
@@ -309,7 +309,7 @@ std_param_linf = diag(sqrt(cov_param_linf));
 for i = 1:2
     confint_param_linf(i,:) = x_linf(i)+tinv([0.025  0.975],n2-p)*std_param_linf(i);
 end
-disp('LS: Confidence Interval for Parameters')
+disp('Linf: Confidence Interval for Parameters')
 disp(confint_param_linf)
 
 %Display the final table containing all relevant data
@@ -344,8 +344,8 @@ figure('DefaultAxesFontSize',16)
 plot(ti,y_obs,'bo',ti,y_true,'r',ti,y_huber,'g');
 title('Huber-Solution with Outliers','Interpreter','Latex')
 legend({'Observations','True Model','Huber-Model Solution'},'Interpreter','Latex','Location','northwest')
-xlabel('t')
-ylabel('y')
+xlabel('t','Interpreter','Latex')
+ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
 
 
@@ -356,8 +356,8 @@ figure('DefaultAxesFontSize',16)
 subplot(1,2,1)
 hist(res_huber,50);
 title({'Histogram of the Errors for', 'Huber-Solution with Outliers'},'Interpreter','Latex')
-xlabel('Residual Value')
-ylabel('Counts')
+xlabel('Residual Value','Interpreter','Latex')
+ylabel('Counts','Interpreter','Latex')
 
 %Histogram without outliers
 res_huber_wo = res_huber;
@@ -367,8 +367,8 @@ n2 =length(res_huber_wo);
 subplot(1,2,2)
 hist(res_huber_wo,50);
 title({'Histogram of the Errors for','Huber-Solution without Outliers'},'Interpreter','Latex')
-xlabel('Residual Value')
-ylabel('Counts')
+xlabel('Residual Value','Interpreter','Latex')
+ylabel('Counts','Interpreter','Latex')
 set(gcf,'units','points','position',[10,10,1000,350])
 set(findobj(gcf,'type','axes'),'TickLabelInterpreter','Latex')
 
@@ -396,8 +396,8 @@ figure('DefaultAxesFontSize',16)
 plot(ti_wo,y_obs_wo,'bo',ti_wo,y_true_wo,'r',ti_wo,y_huber_wo,'g',ti_wo,PI_data_huber(:,1),'--g',ti_wo,PI_data_huber(:,2),'--g');
 title({'Huber-Solution without Outliers', 'including Prediction Interval'},'Interpreter','Latex')
 legend({'Observations','True Model','Huber-Solution','Low Bound PI',' High Bound PI'},'Interpreter','Latex','Location','northwest')
-xlabel('t')
-ylabel('y')
+xlabel('t','Interpreter','Latex')
+ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
 
 %Confidence Interval for the Parameters in x
@@ -406,7 +406,7 @@ std_param_huber = diag(sqrt(cov_param_huber));
 for i = 1:2
     confint_param_huber(i,:) = x_huber(i)+tinv([0.025  0.975],n2-p)*std_param_huber(i);
 end
-disp('LS: Confidence Interval for Parameters')
+disp('Lhuber: Confidence Interval for Parameters')
 disp(confint_param_huber)
 
 %Display the final table containing all relevant data
