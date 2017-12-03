@@ -18,7 +18,7 @@ data_pb2=[2.0000 ,   0.0615;
 n_obs=length(data_pb2);
 cs=data_pb2(:,1);%ubstrat concentration
 r=data_pb2(:,2);%reaction rate
-
+p=2;
 %% Plot data and transformed data
 
 figure(1);
@@ -36,7 +36,7 @@ title('1/r=f(1/Cs,t)')
 %% l1 estimation
 
 %p1=theta2/theta1 and p2=1/theta1 ---> 1/r=p1*1/cs+p2
-p=2;
+
 r_inv=1./r;
 cs_inv=1./cs;
 n=length(r_inv);
@@ -85,7 +85,7 @@ theta1 = 0:0.005:0.4;
 theta2 = 0:0.005:5;
 [Theta1,Theta2] = meshgrid(theta1,theta2);
 F=zeros(length(theta2),length(theta1));
-for i=1:n
+for i=1:n_obs
     F=F+(r(i)-Theta1*cs(i)./(Theta2+cs(i))).^2;
 end
 
