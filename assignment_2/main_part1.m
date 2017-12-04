@@ -31,7 +31,7 @@ idx = y_obs > 12;
 figure('DefaultAxesFontSize',16)
 plot(ti,y_obs,'bo',ti,y_true,'r');
 title('Observations and True Model','Interpreter','Latex')
-legend('Observations','True Model','Location','northwest')
+legend({'Observations','True Model'},'Location','northwest','Interpreter','Latex')
 xlabel('t','Interpreter','Latex')
 ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
@@ -95,6 +95,7 @@ y_true_wo(idx)=[];
 
 %Predictions
 std_noise_ls = sqrt(sum(res_ls_wo.^2)/(n2-p));
+fprintf('LS:The standard deviation of the noise is %f\n',std_noise_ls)
 for i = 1:n2
 PI_data_ls(i,:) = y_ls_wo(i) + tinv([0.025 0.975],n2-p) * std_noise_ls *sqrt( 1 + [ti_wo(i); 1]'*inv(A'*A)*[ti_wo(i); 1] );
 end
@@ -139,8 +140,8 @@ disp('LS: Confidence Interval for Parameters')
 disp(confint_param_ls)
 
 %Display the final table containing all relevant data
-T_ls = table(x_ls, tinv(0.975,n2-p)*std_param_ls, std_param_ls, corrcov(cov_param_ls));
-T_ls.Properties.VariableNames = {'Estimate','ConfidenceInterval','StandardDeviation','CorrelationMatrix'};
+T_ls = table(x_ls, tinv(0.975,n2-p)*std_param_ls, std_param_ls, cov_param_ls);
+T_ls.Properties.VariableNames = {'Estimate','ConfidenceInterval','StandardDeviation','CovarianceMatrix'};
 T_ls.Properties.RowNames = {'x1','x2'};
 disp(T_ls)
 %}
@@ -226,8 +227,8 @@ disp('l1: Confidence Interval for Parameters')
 disp(confint_param_l1)
 
 %Display the final table containing all relevant data
-T_l1 = table(x_l1, tinv(0.975,n2-p)*std_param_l1, std_param_l1, corrcov(cov_param_l1));
-T_l1.Properties.VariableNames = {'Estimate','ConfidenceInterval','StandardDeviation','CorrelationMatrix'};
+T_l1 = table(x_l1, tinv(0.975,n2-p)*std_param_l1, std_param_l1, cov_param_l);
+T_l1.Properties.VariableNames = {'Estimate','ConfidenceInterval','StandardDeviation','CovarianceMatrix'};
 T_l1.Properties.RowNames = {'x1','x2'};
 disp(T_l1)
 
@@ -313,8 +314,8 @@ disp('Linf: Confidence Interval for Parameters')
 disp(confint_param_linf)
 
 %Display the final table containing all relevant data
-T_linf = table(x_linf, tinv(0.975,n2-p)*std_param_linf, std_param_linf, corrcov(cov_param_linf));
-T_linf.Properties.VariableNames = {'Estimate','ConfidenceInterval','StandardDeviation','CorrelationMatrix'};
+T_linf = table(x_linf, tinv(0.975,n2-p)*std_param_linf, std_param_linf, cov_param_linf);
+T_linf.Properties.VariableNames = {'Estimate','ConfidenceInterval','StandardDeviation','CovarianceMatrix'};
 T_linf.Properties.RowNames = {'x1','x2'};
 disp(T_linf)
 
@@ -410,7 +411,7 @@ disp('Lhuber: Confidence Interval for Parameters')
 disp(confint_param_huber)
 
 %Display the final table containing all relevant data
-T_huber = table(x_huber, tinv(0.975,n2-p)*std_param_huber, std_param_huber, corrcov(cov_param_huber));
-T_huber.Properties.VariableNames = {'Estimate','ConfidenceInterval','StandardDeviation','CorrelationMatrix'};
+T_huber = table(x_huber, tinv(0.975,n2-p)*std_param_huber, std_param_huber, cov_param_huber);
+T_huber.Properties.VariableNames = {'Estimate','ConfidenceInterval','StandardDeviation','CovarianceMatrix'};
 T_huber.Properties.RowNames = {'x1','x2'};
 disp(T_huber)

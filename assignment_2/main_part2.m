@@ -1,5 +1,9 @@
 %% PROBLEM 2
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PROBLEM 2.1%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+clear all 
+close all
+clc
 %% Initial
 
 x = [2,2,0.667,0.667,0.4,0.4,0.286,0.286,0.222,0.220,0.2,0.2]';
@@ -70,7 +74,7 @@ p=2;
 %% Contour Plot
 
 
-theta1 = 0:0.005:0.4;
+theta1 = 0:0.005:1;
 theta2 = 0:0.005:5;
 [Theta1,Theta2] = meshgrid(theta1,theta2);
 F=zeros(length(theta2),length(theta1));
@@ -78,10 +82,10 @@ for i=1:n_obs
     F=F+(r(i)-Theta1*cs(i)./(Theta2+cs(i))).^2;
 end
 
-F=1/2*sqrt(F);
+F=1/2*F;
 
 figure('DefaultAxesFontSize',16)
-v = [0:0.01:5 0:0.01:0.8 0:0.005:2];
+v = [0:0.01:5 0:0.01:1 0:0.05:4];
 [c,h]=contour(Theta1,Theta2,F,v,'linewidth',2);
 hold on;
 scatter(theta_ls(1),theta_ls(2),100,'green','filled','h')
@@ -113,7 +117,7 @@ theta_LM = lsqnonlin(f_,x0,[],[],options);
 
 %% Error estimation
 var_est=1/(n_obs-p)*sum((r-theta_LM(1)*cs./(theta_LM(2)+cs)).^2);
-J=[cs./(theta_LM(2)+cs),-theta_LM(1)*cs./(theta_LM(2)+cs).^2];
+J=[-cs./(theta_LM(2)+cs),+theta_LM(1)*cs./(theta_LM(2)+cs).^2];
 H=J'*J;
 C=inv(H);
 PI_theta=theta_LM+[1,-1]'.* tinv([0.025  0.975],n_obs-p) *sqrt(var_est)*sqrt(C);
@@ -137,10 +141,10 @@ for i=1:n_obs
     F=F+(r(i)-Theta1*cs(i)./(Theta2+cs(i))).^2;
 end
 
-F=1/2*sqrt(F);
+F=1/2*F;
 
 figure('DefaultAxesFontSize',16)
-v = [0:0.01:5 0:0.01:0.8 0:0.005:2];
+v = [0:0.01:5 0:0.01:0.8 0:0.005:5];
 [c,h]=contour(Theta1,Theta2,F,v,'linewidth',2);
 hold on;
 scatter([theta_ls(1);theta_LM(1)],[theta_ls(2);theta_LM(2)],100,'green','filled','h')

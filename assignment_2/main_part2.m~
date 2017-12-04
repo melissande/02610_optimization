@@ -1,5 +1,9 @@
 %% PROBLEM 2
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PROBLEM 2.1%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+clear all 
+close all
+clc
 %% Initial
 
 x = [2,2,0.667,0.667,0.4,0.4,0.286,0.286,0.222,0.220,0.2,0.2]';
@@ -78,10 +82,10 @@ for i=1:n_obs
     F=F+(r(i)-Theta1*cs(i)./(Theta2+cs(i))).^2;
 end
 
-F=1/2*sqrt(F);
+F=1/2*F;
 
 figure('DefaultAxesFontSize',16)
-v = [0:0.01:5 0:0.01:0.8 0:0.005:2];
+v = [0:0.01:5 0:0.01:0.8 0:0.005:4];
 [c,h]=contour(Theta1,Theta2,F,v,'linewidth',2);
 hold on;
 scatter(theta_ls(1),theta_ls(2),100,'green','filled','h')
@@ -119,14 +123,12 @@ C=inv(H);
 PI_theta=theta_LM+[1,-1]'.* tinv([0.025  0.975],n_obs-p) *sqrt(var_est)*sqrt(C);
 r_est=theta_LM(1)*cs./(theta_LM(2)+cs);
 
-var_est,
-'VarianceMeasurementNoise'
-print()
+fprintf('Variance of Measurement noise is :%f\n',var_est)
 %Display the final table containing all relevant data
-T_lm = table(theta_LM, [1,-1]'.* tinv([0.025  0.975],n_obs-p) *sqrt(var_est)*sqrt(C), C);
-T_ls.Properties.VariableNames = {'Estimate','ConfidenceInterval','CovarianceMatrix'};
-T_ls.Properties.RowNames = {'x1','x2'};
-disp(T_ls)
+T_lm = table(theta_LM',  (tinv([0.025  0.975],n_obs-p) *sqrt(var_est)*sqrt(C))', C);
+T_lm.Properties.VariableNames = {'Estimate','ConfidenceInterval','CovarianceMatrix'};
+T_lm.Properties.RowNames = {'theta_1','theta_2'};
+disp(T_lm)
 %}
 
 %% Final Contour Plot
@@ -139,7 +141,7 @@ for i=1:n_obs
     F=F+(r(i)-Theta1*cs(i)./(Theta2+cs(i))).^2;
 end
 
-F=1/2*sqrt(F);
+F=1/2*F;
 
 figure('DefaultAxesFontSize',16)
 v = [0:0.01:5 0:0.01:0.8 0:0.005:2];
@@ -172,4 +174,11 @@ set(gca,'TickLabelInterpreter','Latex')
 
 
 
+%% %%%%%%%%%%%%%%%%%%%%%%%%% Best Starting Guess %%%%%%
+%?Jacobian?=?on? and ?Algorithm?=?levenberg-marquardt? 
+options=optimoptions(@lsqnonlin,'Algorithm','levenberg-marquardt');
+x0_b=theta_ls;
+[theta_LM_b,~,~,~,OUTPUT] = lsqnonlin(f_,x0_b,[],[],options);
 
+fprintf('The number of iterations before convergence is %d with %d functions evaluated\n',...
+    OUTPUT.iterations,OUTPUT.funcCount);
