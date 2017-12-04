@@ -99,28 +99,6 @@ for i = 1:n2
 PI_data_ls(i,:) = y_ls_wo(i) + tinv([0.025 0.975],n2-p) * std_noise_ls *sqrt( 1 + [ti_wo(i); 1]'*inv(A'*A)*[ti_wo(i); 1] );
 end
 
-%{
-PI_data_ls = y_ls_wo + tinv([0.025  0.975],n2-p) * std_noise_ls;
-
-%Below is an investigation of additional prediction interval methods. 
-%The former yields the same result and the latter yields a very narrow 
-%interval. They have been plotted to compare. The initial method was chosen
-
-
-PI_data_ls_wo = y_ls_wo + tinv([0.025  0.975],n2-p-2) .* (std_noise_ls * sqrt( 1 + 1/(n2-p) + (ti_wo-mean(ti_wo)).^2 / sum( (ti_wo-mean(ti_wo)).^2 ) ) );
-
-for i = 1:n2
-PI_data_ls_wo2(i,:) = y_ls_wo(i) + tinv([0.025 0.975],n2-p) * std_noise_ls *sqrt( 1 + [ti_wo(i); 1]'*inv(H)*[ti_wo(i); 1] );
-end
-
-figure(51)
-plot(ti_wo,y_true_wo,'r',ti_wo,y_ls_wo,'g',ti_wo,PI_data_ls(:,1),'--g',ti_wo,PI_data_ls(:,2),'--g')
-figure(52)
-plot(ti_wo,y_true_wo,'r',ti_wo,y_ls_wo,'g',ti_wo,PI_data_ls_wo(:,1),'--g',ti_wo,PI_data_ls_wo(:,2),'--g')
-figure(53)
-plot(ti_wo,y_true_wo,'r',ti_wo,y_ls_wo,'g',ti_wo,PI_data_ls_wo2(:,1),'--g',ti_wo,PI_data_ls_wo2(:,2),'--g')
-%}
-
 figure('DefaultAxesFontSize',16)
 plot(ti_wo,y_obs_wo,'bo',ti_wo,y_true_wo,'r',ti_wo,y_ls_wo,'g',ti_wo,PI_data_ls(:,1),'--g',ti_wo,PI_data_ls(:,2),'--g');
 title({'$\ell_{2}$-Solution without Outliers', 'including Prediction Interval'},'Interpreter','Latex')
@@ -251,6 +229,7 @@ legend({'Observations','True Model','$\ell_{\infty}$-Model Solution'},'Interpret
 xlabel('t','Interpreter','Latex')
 ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
+set(gcf,'units','points','position',[10,10,900,450])
 
 %Histogram with outliers
 res_linf = y_obs-y_linf;
@@ -302,6 +281,7 @@ legend({'Observations','True Model','$\ell_{\infty}$-Solution','Low Bound PI',' 
 xlabel('t','Interpreter','Latex')
 ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
+set(gcf,'units','points','position',[10,10,900,450])
 
 %Confidence Interval for the Parameters in x
 cov_param_linf = std_noise_linf^2*inv(A'*A);
@@ -323,7 +303,7 @@ disp(T_linf)
 %Constructing and solving the constrained quadratic program solution
 %to the parameters of the model
 
-%Refine A to contain 100 columns of zeros.
+%Redefine A to contain 100 columns of zeros.
 A_new = [A,zeros(100,100-p)];
 tau = 3;
 
