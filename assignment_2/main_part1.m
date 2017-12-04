@@ -182,6 +182,7 @@ y_true_wo(idx)=[];
 
 %Predictions
 std_noise_l1 = sqrt(sum(res_l1_wo.^2)/(n2-p));
+fprintf('L1:The standard deviation of the noise is %f\n',std_noise_l1)
 %PI_data_l1 = y_l1_wo + tinv([0.025  0.975],n2-p) * std_noise_l1;
 for i = 1:n2
 PI_data_l1(i,:) = y_l1_wo(i) + tinv([0.025 0.975],n2-p) * std_noise_l1 *sqrt( 1 + [ti_wo(i); 1]'*inv(A'*A)*[ti_wo(i); 1] );
@@ -205,7 +206,7 @@ disp('l1: Confidence Interval for Parameters')
 disp(confint_param_l1)
 
 %Display the final table containing all relevant data
-T_l1 = table(x_l1, tinv(0.975,n2-p)*std_param_l1, std_param_l1, cov_param_l);
+T_l1 = table(x_l1, tinv(0.975,n2-p)*std_param_l1, std_param_l1, cov_param_l1);
 T_l1.Properties.VariableNames = {'Estimate','ConfidenceInterval','StandardDeviation','CovarianceMatrix'};
 T_l1.Properties.RowNames = {'x1','x2'};
 disp(T_l1)
