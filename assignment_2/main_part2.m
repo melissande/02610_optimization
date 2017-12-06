@@ -63,6 +63,7 @@ legend({'Data','Model Prediction'},'Location','northwest')
 xlabel('Substrate Concentration $x$','Interpreter','Latex')
 ylabel('Reaction Rate $y$','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
+set(gcf,'units','points','position',[10,10,900,450])
 
 
 
@@ -102,6 +103,7 @@ title('Contour plot of $\Phi$','Interpreter','Latex')
 xlabel('$\theta_1$','Interpreter','Latex')
 ylabel('$\theta_2$','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
+set(gcf,'units','points','position',[10,10,900,450])
 
 colorbar
 
@@ -150,6 +152,8 @@ title('Contour plot of $\Phi$','Interpreter','Latex')
 xlabel('$\theta_1$','Interpreter','Latex')
 ylabel('$\theta_2$','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
+set(gcf,'units','points','position',[10,10,900,450])
+
 colorbar
 
 
@@ -167,6 +171,7 @@ legend({'Data','Model Prediction LS','Model Prediction LM'},'Location','northwes
 xlabel('Substrate Concentration $x$','Interpreter','Latex')
 ylabel('Reaction Rate $y$','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
+set(gcf,'units','points','position',[10,10,900,450])
 
 
 
@@ -178,3 +183,5 @@ x0_b=[0.1,1.4];
 
 fprintf('The number of iterations before convergence is %d with %d functions evaluated\n',...
     OUTPUT.iterations,OUTPUT.funcCount);
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PROBLEM 2.3%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

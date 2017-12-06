@@ -35,6 +35,8 @@ legend({'Observations','True Model'},'Location','northwest','Interpreter','Latex
 xlabel('t','Interpreter','Latex')
 ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
+set(gcf,'units','points','position',[10,10,900,450])
+
 
 
 %% Q2: l2 Squares Estimation
@@ -56,6 +58,7 @@ legend({'Observations','True Model','$\ell_{2}$-Model Solution'},'Interpreter','
 xlabel('t','Interpreter','Latex')
 ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
+set(gcf,'units','points','position',[10,10,900,450])
 
 %Histogram with outliers
 res_ls=y_obs-y_ls;
@@ -107,6 +110,7 @@ legend({'Observations','True Model','$\ell_{2}$-Solution','Low Bound PI',' High 
 xlabel('t','Interpreter','Latex')
 ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
+set(gcf,'units','points','position',[10,10,900,450])
 
 %Confidence Interval for the Parameters in x
 cov_param_ls = std_noise_ls^2*inv(A'*A);
@@ -143,6 +147,7 @@ legend({'Observations','True Model','$\ell_{1}$-Model Solution'},'Interpreter','
 xlabel('t','Interpreter','Latex')
 ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
+set(gcf,'units','points','position',[10,10,900,450])
 
 %Histogram with outliers
 res_l1=y_obs-y_l1;
@@ -195,6 +200,7 @@ legend({'Observations','True Model','$\ell_{1}$-Solution','Low Bound PI',' High 
 xlabel('t','Interpreter','Latex')
 ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
+set(gcf,'units','points','position',[10,10,900,450])
 
 %Confidence Interval for the Parameters in x
 cov_param_l1 = std_noise_l1^2*inv(A'*A);
@@ -329,6 +335,7 @@ legend({'Observations','True Model','Huber-Model Solution'},'Interpreter','Latex
 xlabel('t','Interpreter','Latex')
 ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
+set(gcf,'units','points','position',[10,10,900,450])
 
 
 %Histogram with outliers
@@ -381,6 +388,7 @@ legend({'Observations','True Model','Huber-Solution','Low Bound PI',' High Bound
 xlabel('t','Interpreter','Latex')
 ylabel('y','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
+set(gcf,'units','points','position',[10,10,900,450])
 
 %Confidence Interval for the Parameters in x
 cov_param_huber = std_noise_huber^2*inv(A'*A);
