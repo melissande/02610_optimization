@@ -1,3 +1,3 @@
 function dxdt = diffmodel(t,x,p)
-dxdt = - ( p(2) * x ) / (p(1) + x );
+dxdt = - ( p(1) * x ) / ( p(2) + x );
 end

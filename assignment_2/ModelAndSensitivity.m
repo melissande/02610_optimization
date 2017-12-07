@@ -1,13 +1,24 @@
-function zdot = ModelAndSensitivity(t,z,p,n,np)
+function dzdt = ModelAndSensitivity(t,z,p,n)
+%Function that allows the computation of the both differential equation and
+%the sensitivities of the model function. p is the parameters and n is the
+%size of the x(t) system of differential equations.
 
+
+
+%The input vector is sorted out. This is necessary to compute the
+%sensitivities
 x = z(1:n,1);
 sp = z(n+1:end,1);
-Sp = reshape(sp,n,np);
 
-xdot = - ( p(1) * x ) / (p(2) + x );
+%Compuation of the derivatives necessary
+dxdt = - ( p(1) * x ) / ( p(2) + x );
 
-"[dfdx,dfdp] = Derivatives(t,x,p);"  %Evaluate the derivatives
+dfdx = - p(1) / ( p(2)+x ) + p(1)*x / ( p(2)+x )^2;
+dfdp = [ -x / (p(2) +x) ; p(1)*x / ( p(2)+x )^2 ];
 
-Spdot = dfdx*Sp + dfdp;
+%The second system of differential equations for the time derivative of
+%the sensitivity
 
-zdot = [xdot; Spdot(:)];             %Return derivatives as a vector
+Spdot = dfdx*sp + dfdp;
+
+dzdt = [dxdt; Spdot];        %Return derivatives as a vector

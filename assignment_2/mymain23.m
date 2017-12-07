@@ -19,36 +19,51 @@ xlim([-5 205])
 ylim([-0.5 10.5])
 
 
-%% 
-%Solve the differential equation using ode45 and calling the diff-equation. 
-%The last input is the parameter values p of @diffmodel
-
-[~,X] = ode45(@diffmodel,0:10:200,10,[],[0.5,0.5])
-
-%% Contour Plot
+%% Calculating phi(theta)
 
 %Define coordinate grid to act as parameter input space.
-theta1 = linspace(0.01,1,50);
-theta2 = linspace(0.01,3,50);
-[T1,T2] = meshgrid(theta1,theta2);
+theta1 = linspace( 0.01,1,100 );
+theta2 = linspace( 0.01,3,100 );
 
-[rT,cT] = size(T1);
+[T1,T2] = meshgrid (theta1 , theta2 );
+
+[rT,cT] = size( T1 );
+
 
 %We feed various inputs of p to the ode-solution to generate
 %the various y_hat(theta,t) outputs.
+
 tic
 for i = 1:rT
+    
     for j = 1:cT
-    [~,A{i,j}] = ode45(@diffmodel,0:10:200,10,[],[T1(i,j),T2(i,j)]);
-    Y(i,j) =0.5*norm(y-A{i,j})^2;
+    p = [ T1(i,j) , T2(i,j) ];
+    
+    %Method 1. Using diffmodel
+    [~,A{i,j}] = ode45( @diffmodel , 0:10:200 , 10 , [] , p );
+    Y(i,j) = 0.5 *  sum( ( y-A{i,j} ).^2 );
+    
+    %Method 2. Using ModelAndSensitivity
+    [~,K] = ode45( @ModelAndSensitivity , 0:10:200 , [10;0;0] , [] , p , 1);
+    B{i,j} = K(:,1);
+    Z(i,j) = 0.5 *  sum( ( y-B{i,j} ).^2 );
+    
     end
+    
 end
 toc
 
 %%
 %Create the contour plot
-%v = [0:100:0.2 100:500 0.5 500:1000];
 
 figure('DefaultAxesFontSize',16)
-contour(T1,T2,Y,100)
+contourf(T1,T2,Y,100)
 set(gcf,'units','points','position',[10,10,900,450])
+
+figure('DefaultAxesFontSize',16)
+contourf(T1,T2,Z,100)
+set(gcf,'units','points','position',[10,10,900,450])
+
+
+%% Solving the unconstrained optimization problem using lsqnonlin
+
