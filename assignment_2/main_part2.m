@@ -66,21 +66,15 @@ set(gca,'TickLabelInterpreter','Latex')
 set(gcf,'units','points','position',[10,10,900,450])
 
 
-
-
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PROBLEM 2.2%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% DATA
+%% Data
 
-
-
-n_obs=length(x);
-cs=x;%ubstrat concentration
-r=y;%reaction rate
-p=2;
-
+n_obs=length(x);    %observations
+cs=x;               %substrat concentration
+r=y;                %reaction rate
+p=2;                %no. of parameters
 
 %% Contour Plot
-
 
 theta1 = 0:0.005:0.4;
 theta2 = 0:0.005:5;
@@ -104,12 +98,11 @@ xlabel('$\theta_1$','Interpreter','Latex')
 ylabel('$\theta_2$','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
 set(gcf,'units','points','position',[10,10,900,450])
-
 colorbar
 
-%% LSQNONLIN  
-f_=@(theta_)(r-theta_(1)*cs/(theta_(2)+cs));
+%% LSQNONLIN
 
+f_=@(theta_)(r-theta_(1)*cs/(theta_(2)+cs));
 x0=[0.1,1.4];
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%% GAUSS NEWTON %%%%%%
@@ -119,12 +112,14 @@ x0=[0.1,1.4];
 %x_opt_GN = lsqnonlin(f_,x0,[],[],options);
 
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%% LEVEMBERG MARQUARDT %%%%%%
+%%  Levenberg-Marquardt
+
 %?Jacobian?=?on? and ?Algorithm?=?levenberg-marquardt? 
 options=optimoptions(@lsqnonlin,'Algorithm','levenberg-marquardt');
 theta_LM = lsqnonlin(f_,x0,[],[],options);
 
 %% Error estimation
+
 var_est=1/(n_obs-p)*sum((r-theta_LM(1)*cs./(theta_LM(2)+cs)).^2);
 J=[-cs./(theta_LM(2)+cs),+theta_LM(1)*cs./(theta_LM(2)+cs).^2];
 H=J'*J;
@@ -134,14 +129,15 @@ r_est=theta_LM(1)*cs./(theta_LM(2)+cs);
 
 fprintf('Variance of Measurement noise is :%f\n',var_est)
 tdist=tinv([0.025  0.975],n_obs-p);
+
 %Display the final table containing all relevant data
 T_lm = table(theta_LM',  tdist(2) *sqrt(var_est)*sqrt(diag(C)), C);
 T_lm.Properties.VariableNames = {'Estimate','ConfidenceInterval','CovarianceMatrix'};
 T_lm.Properties.RowNames = {'theta_1','theta_2'};
 disp(T_lm)
-%}
 
 %% Final Contour Plot
+
 figure('DefaultAxesFontSize',16)
 [c,h]=contour(Theta1,Theta2,F,v,'linewidth',2);
 hold on;
@@ -153,7 +149,6 @@ xlabel('$\theta_1$','Interpreter','Latex')
 ylabel('$\theta_2$','Interpreter','Latex')
 set(gca,'TickLabelInterpreter','Latex')
 set(gcf,'units','points','position',[10,10,900,450])
-
 colorbar
 
 
@@ -175,7 +170,8 @@ set(gcf,'units','points','position',[10,10,900,450])
 
 
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%% Best Starting Guess %%%%%%
+%% Best starting guess
+
 %?Jacobian?=?on? and ?Algorithm?=?levenberg-marquardt? 
 options=optimoptions(@lsqnonlin,'Algorithm','levenberg-marquardt');
 x0_b=[0.1,1.4];

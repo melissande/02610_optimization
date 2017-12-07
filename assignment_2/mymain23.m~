@@ -104,12 +104,11 @@ cov_param = noise_estimate * inv( J'*J );
 theta1_confint = tinv(0.975,m-np) * sqrt( noise_estimate ) * cov_param(1,1);
 theta2_confint = tinv(0.975,m-np) * sqrt( noise_estimate ) * cov_param(2,2);
 
-%Construct table with a summary of the data
-
-T_TR = table(theta_TR', [theta1_confint;theta2_confint], [cov_param(1,1);cov_param(2,2)], cov_param);
-T_TR.Properties.VariableNames = {'Estimate','ConfidenceInterval','StandardDeviation','CovarianceMatrix'};
-T_TR.Properties.RowNames = {'theta1','theta2'};
-disp(T_TR)
+%Consc
+T_ls = table(x_ls, tinv(0.975,n2-p)*std_param_ls, std_param_ls, cov_param_ls);
+T_ls.Properties.VariableNames = {'Estimate','ConfidenceInterval','StandardDeviation','CovarianceMatrix'};
+T_ls.Properties.RowNames = {'x1','x2'};
+disp(T_ls)
 
 
 
