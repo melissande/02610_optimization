@@ -4,7 +4,6 @@ function dzdt = ModelAndSensitivity(t,z,p,n)
 %size of the x(t) system of differential equations.
 
 
-
 %The input vector is sorted out. This is necessary to compute the
 %sensitivities
 x = z(1:n,1);
@@ -21,4 +20,4 @@ dfdp = [ -x / (p(2) +x) ; p(1)*x / ( p(2)+x )^2 ];
 
 Spdot = dfdx*sp + dfdp;
 
-dzdt = [dxdt; Spdot];        %Return derivatives as a vector
+dzdt = [dxdt; Spdot];

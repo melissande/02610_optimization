@@ -44,12 +44,6 @@ for i = 1:rT
     [~,A{i,j}] = ode45( @diffmodel , 0:10:200 , 10 , [] , p );
     Y(i,j) = 0.5 *  sum( ( y-A{i,j} ).^2 );
     
-    %{
-    %Method 2. Using ModelAndSensitivity
-    [~,K] = ode45( @ModelAndSensitivity , 0:10:200 , [10;0;0] , [] , p , 1);
-    B{i,j} = K(:,1);
-    Z(i,j) = 0.5 *  sum( ( y-B{i,j} ).^2 );
-    %}
     end
     
 end
@@ -57,7 +51,6 @@ toc
 
 %% Creating contour plot
 
-%v = [0:10 10:50 50:100 100:1000 1000:10000];
 figure('DefaultAxesFontSize',16)
 contourf( T1,T2,Y,100 )
 hold on
@@ -72,17 +65,12 @@ colorbar
 
 %% Solving the unconstrained optimization problem using lsqnonlin
 
-
 optim_LM = optimoptions('lsqnonlin','Algorithm','levenberg-marquardt','SpecifyObjectiveGradient',true,'FunctionTolerance',1e-9,'StepTolerance',1e-9);
 optim_TR = optimoptions('lsqnonlin','Algorithm','trust-region-reflective','SpecifyObjectiveGradient',true,'FunctionTolerance',1e-9,'StepTolerance',1e-9);
 
 p0 = [0.1,0.1];
 [theta_LM,resnorm_LM,residual_LM,~,overview_LM] = lsqnonlin( @odefun,p0,[],[],optim_LM,y);
 [theta_TR,resnorm_TR,residual_TR,~,overview_TR] = lsqnonlin( @odefun,p0,[],[],optim_TR,y);
-
-[theta_LM ; theta_TR ]
-overview_LM
-overview_TR
 
 %% Statistic Calculations
 
@@ -110,7 +98,3 @@ T_TR = table(theta_TR', [theta1_confint;theta2_confint], [cov_param(1,1);cov_par
 T_TR.Properties.VariableNames = {'Estimate','ConfidenceInterval','StandardDeviation','CovarianceMatrix'};
 T_TR.Properties.RowNames = {'theta1','theta2'};
 disp(T_TR)
-
-
-
-

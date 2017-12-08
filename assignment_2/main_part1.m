@@ -99,8 +99,9 @@ y_true_wo(idx)=[];
 %Predictions
 std_noise_ls = sqrt(sum(res_ls_wo.^2)/(n2-p));
 fprintf('LS:The standard deviation of the noise is %f\n',std_noise_ls)
+
 for i = 1:n2
-PI_data_ls(i,:) = y_ls_wo(i) + tinv([0.025 0.975],n2-p) * std_noise_ls *sqrt( 1 + [ti_wo(i); 1]'*inv(A'*A)*[ti_wo(i); 1] );
+    PI_data_ls(i,:) = y_ls_wo(i) + tinv([0.025 0.975],n2-p) * std_noise_ls *sqrt( 1 + [ti_wo(i); 1]'*inv(A'*A)*[ti_wo(i); 1] );
 end
 
 figure('DefaultAxesFontSize',16)
@@ -115,9 +116,11 @@ set(gcf,'units','points','position',[10,10,900,450])
 %Confidence Interval for the Parameters in x
 cov_param_ls = std_noise_ls^2*inv(A'*A);
 std_param_ls = diag(sqrt(cov_param_ls));
+
 for i = 1:2
     confint_param_ls(i,:) = x_ls(i)+tinv([0.025  0.975],n2-p)*std_param_ls(i);
 end
+
 disp('LS: Confidence Interval for Parameters')
 disp(confint_param_ls)
 
@@ -126,7 +129,7 @@ T_ls = table(x_ls, tinv(0.975,n2-p)*std_param_ls, std_param_ls, cov_param_ls);
 T_ls.Properties.VariableNames = {'Estimate','ConfidenceInterval','StandardDeviation','CovarianceMatrix'};
 T_ls.Properties.RowNames = {'x1','x2'};
 disp(T_ls)
-%}
+
 %% Q3: l1  Estimation
 
 %Constructing and solving the linear unconstrained program solution
@@ -188,9 +191,9 @@ y_true_wo(idx)=[];
 %Predictions
 std_noise_l1 = sqrt(sum(res_l1_wo.^2)/(n2-p));
 fprintf('L1:The standard deviation of the noise is %f\n',std_noise_l1)
-%PI_data_l1 = y_l1_wo + tinv([0.025  0.975],n2-p) * std_noise_l1;
+
 for i = 1:n2
-PI_data_l1(i,:) = y_l1_wo(i) + tinv([0.025 0.975],n2-p) * std_noise_l1 *sqrt( 1 + [ti_wo(i); 1]'*inv(A'*A)*[ti_wo(i); 1] );
+    PI_data_l1(i,:) = y_l1_wo(i) + tinv([0.025 0.975],n2-p) * std_noise_l1 *sqrt( 1 + [ti_wo(i); 1]'*inv(A'*A)*[ti_wo(i); 1] );
 end
 
 figure('DefaultAxesFontSize',16)
@@ -205,9 +208,11 @@ set(gcf,'units','points','position',[10,10,900,450])
 %Confidence Interval for the Parameters in x
 cov_param_l1 = std_noise_l1^2*inv(A'*A);
 std_param_l1 = diag(sqrt(cov_param_l1));
+
 for i = 1:2
     confint_param_l1(i,:) = x_l1(i)+tinv([0.025  0.975],n2-p)*std_param_l1(i);
 end
+
 disp('l1: Confidence Interval for Parameters')
 disp(confint_param_l1)
 
@@ -277,10 +282,10 @@ y_true_wo(idx)=[];
 
 %Predictions
 std_noise_linf = sqrt(sum(res_linf_wo.^2)/(n2-p));
+
 for i = 1:n2
 PI_data_linf(i,:) = y_linf_wo(i) + tinv([0.025 0.975],n2-p) * std_noise_linf *sqrt( 1 + [ti_wo(i); 1]'*inv(A'*A)*[ti_wo(i); 1] );
 end
-%PI_data_linf = y_linf_wo + tinv([0.025  0.975],n2-p) * std_noise_linf;
 
 figure('DefaultAxesFontSize',16)
 plot(ti_wo,y_obs_wo,'bo',ti_wo,y_true_wo,'r',ti_wo,y_linf_wo,'g',ti_wo,PI_data_linf(:,1),'--g',ti_wo,PI_data_linf(:,2),'--g');
@@ -294,9 +299,11 @@ set(gcf,'units','points','position',[10,10,900,450])
 %Confidence Interval for the Parameters in x
 cov_param_linf = std_noise_linf^2*inv(A'*A);
 std_param_linf = diag(sqrt(cov_param_linf));
+
 for i = 1:2
     confint_param_linf(i,:) = x_linf(i)+tinv([0.025  0.975],n2-p)*std_param_linf(i);
 end
+
 disp('Linf: Confidence Interval for Parameters')
 disp(confint_param_linf)
 
@@ -376,10 +383,10 @@ y_true_wo(idx)=[];
 
 %Predictions
 std_noise_huber = sqrt(sum(res_huber_wo.^2)/(n2-p));
+
 for i = 1:n2
-PI_data_huber(i,:) = y_huber_wo(i) + tinv([0.025 0.975],n2-p) * std_noise_huber *sqrt( 1 + [ti_wo(i); 1]'*inv(A'*A)*[ti_wo(i); 1] );
+    PI_data_huber(i,:) = y_huber_wo(i) + tinv([0.025 0.975],n2-p) * std_noise_huber *sqrt( 1 + [ti_wo(i); 1]'*inv(A'*A)*[ti_wo(i); 1] );
 end
-%PI_data_huber = y_huber_wo + tinv([0.025  0.975],n2-p) * std_noise_huber;
 
 figure('DefaultAxesFontSize',16)
 plot(ti_wo,y_obs_wo,'bo',ti_wo,y_true_wo,'r',ti_wo,y_huber_wo,'g',ti_wo,PI_data_huber(:,1),'--g',ti_wo,PI_data_huber(:,2),'--g');
@@ -393,9 +400,11 @@ set(gcf,'units','points','position',[10,10,900,450])
 %Confidence Interval for the Parameters in x
 cov_param_huber = std_noise_huber^2*inv(A'*A);
 std_param_huber = diag(sqrt(cov_param_huber));
+
 for i = 1:2
     confint_param_huber(i,:) = x_huber(i)+tinv([0.025  0.975],n2-p)*std_param_huber(i);
 end
+
 disp('Lhuber: Confidence Interval for Parameters')
 disp(confint_param_huber)
 
