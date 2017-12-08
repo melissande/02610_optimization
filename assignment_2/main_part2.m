@@ -30,8 +30,6 @@ title('Inv. Reaction Rate $\frac{1}{y}$ vs Inv. Substrate Concentration $\frac{1
 xlabel('Inv. Substrate Concentration $\frac{1}{x}$','Interpreter','Latex')
 ylabel('Inv. Reaction Rate $\frac{1}{y}$','Interpreter','Latex')
 legend('Data','Location','northwest')
-%set(gcf,'units','points','position',[10,10,500,12500])
-%set(findobj(gcf,'type','axes'),'TickLabelInterpreter','Latex')
 set(gcf,'units','points','position',[10,10,900,450])
 set(gca,'TickLabelInterpreter','Latex')
 xlim([0 5.1])
@@ -69,30 +67,32 @@ set(gcf,'units','points','position',[10,10,900,450])
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PROBLEM 2.2%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Data
 
-n_obs=length(x);    %observations
-cs=x;               %substrat concentration
-r=y;                %reaction rate
-p=2;                %no. of parameters
+n_obs = length(x);    %observations
+cs = x;               %substrat concentration
+r = y;                %reaction rate
+p = 2;                %no. of parameters
 
 %% Contour Plot
 
 theta1 = 0:0.005:0.4;
 theta2 = 0:0.005:5;
-[Theta1,Theta2] = meshgrid(theta1,theta2);
-F=zeros(length(theta2),length(theta1));
+[Theta1 , Theta2] = meshgrid(theta1,theta2);
+
+F=zeros( length(theta2) , length(theta1) );
+
 for i=1:n_obs
-    F=F+(r(i)-Theta1*cs(i)./(Theta2+cs(i))).^2;
+    F = F + ( r(i) - Theta1 * cs(i) ./ ( Theta2 + cs(i) ) ).^2;
 end
 
-F=1/2*F;
+F = 1/2 * F;
 
 figure('DefaultAxesFontSize',16)
 v = [0:0.005:0.4 0:0.005:5 0:0.0001:1];
-[c,h]=contour(Theta1,Theta2,F,v,'linewidth',2);
+[c,h] = contour( Theta1,Theta2,F,v,'linewidth',2 );
 hold on;
-scatter(theta_ls(1),theta_ls(2),100,'green','filled','h')
-dy =0.1;
-text(theta_ls(1), theta_ls(2)+dy, '$\theta_{LS}$','Color','green','FontSize',14,'Interpreter','Latex');
+scatter( theta_ls(1),theta_ls(2),100,'green','filled','h' )
+dy = 0.1;
+text( theta_ls(1), theta_ls(2)+dy, '$\theta_{LS}$','Color','green','FontSize',14,'Interpreter','Latex');
 title('Contour plot of $\Phi$','Interpreter','Latex')
 xlabel('$\theta_1$','Interpreter','Latex')
 ylabel('$\theta_2$','Interpreter','Latex')
@@ -103,24 +103,24 @@ colorbar
 %% LSQNONLIN
 
 f_=@(theta_)(r-theta_(1)*cs/(theta_(2)+cs));
-x0=[0.1,1.4];
+x0 = [0.1,1.4];
 
 %%  Levenberg-Marquardt
 
-options=optimoptions(@lsqnonlin,'Algorithm','levenberg-marquardt');
-theta_LM = lsqnonlin(f_,x0,[],[],options);
+options = optimoptions(@lsqnonlin,'Algorithm','levenberg-marquardt');
+theta_LM = lsqnonlin( f_,x0,[],[],options );
 
 %% Error estimation
 
-var_est=1/(n_obs-p)*sum((r-theta_LM(1)*cs./(theta_LM(2)+cs)).^2);
-J=[-cs./(theta_LM(2)+cs),+theta_LM(1)*cs./(theta_LM(2)+cs).^2];
-H=J'*J;
-C=inv(H);
-PI_theta=theta_LM+tinv([0.025  0.975],n_obs-p)'*sqrt(var_est)*sqrt(diag(C))';
-r_est=theta_LM(1)*cs./(theta_LM(2)+cs);
+var_est = 1 / ( n_obs - p ) * sum( ( r - theta_LM(1) * cs ./ ( theta_LM(2) + cs ) ).^2);
+J = [ -cs ./ ( theta_LM(2) + cs ) , + theta_LM(1) * cs ./ ( theta_LM(2) + cs ).^2];
+H = J'*J;
+C = inv(H);
+PI_theta = theta_LM + tinv( [0.025  0.975] , n_obs - p )' * sqrt( var_est ) * sqrt( diag(C) )';
+r_est = theta_LM(1) * cs ./ ( theta_LM(2) + cs );
 
 fprintf('Variance of Measurement noise is :%f\n',var_est)
-tdist=tinv([0.025  0.975],n_obs-p);
+tdist = tinv( [0.025  0.975] , n_obs - p );
 
 %Display the final table containing all relevant data
 T_lm = table(theta_LM',  tdist(2) *sqrt(var_est)*sqrt(diag(C)), C);
@@ -131,11 +131,11 @@ disp(T_lm)
 %% Final Contour Plot
 
 figure('DefaultAxesFontSize',16)
-[c,h]=contour(Theta1,Theta2,F,v,'linewidth',2);
+[c,h] = contour( Theta1,Theta2,F,v,'linewidth',2 );
 hold on;
-scatter([theta_ls(1);theta_LM(1)],[theta_ls(2);theta_LM(2)],100,'green','filled','h')
+scatter( [theta_ls(1);theta_LM(1)],[theta_ls(2);theta_LM(2)],100,'green','filled','h' )
 dx = -0.01; dy =0.2;
-text([theta_ls(1);theta_LM(1)+dx], [theta_ls(2)+dy;theta_LM(2)+dy], ['$\theta_{LS}$';'$\theta_{LM}$'],'Color','green','FontSize',14,'Interpreter','Latex');
+text( [theta_ls(1);theta_LM(1)+dx], [theta_ls(2)+dy;theta_LM(2)+dy], ['$\theta_{LS}$';'$\theta_{LM}$'],'Color','green','FontSize',14,'Interpreter','Latex');
 title('Contour plot of $\Phi$','Interpreter','Latex')
 xlabel('$\theta_1$','Interpreter','Latex')
 ylabel('$\theta_2$','Interpreter','Latex')
@@ -164,9 +164,9 @@ set(gcf,'units','points','position',[10,10,900,450])
 
 %% Best starting guess
 
-options=optimoptions(@lsqnonlin,'Algorithm','levenberg-marquardt');
-x0_b=[0.1,1.4];
-[theta_LM_b,~,~,~,OUTPUT] = lsqnonlin(f_,x0_b,[],[],options);
+options = optimoptions( @lsqnonlin,'Algorithm','levenberg-marquardt' );
+x0_b = [ 0.1 , 1.4];
+[theta_LM_b,~,~,~,OUTPUT] = lsqnonlin( f_,x0_b,[],[],options );
 
 fprintf('The number of iterations before convergence is %d with %d functions evaluated\n',...
     OUTPUT.iterations,OUTPUT.funcCount);
